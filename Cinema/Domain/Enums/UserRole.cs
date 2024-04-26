@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models
+namespace Domain.Enums
 {
-    internal class Genre
+    public enum UserRole
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        User =1, Administrator =2,      
     }
 }

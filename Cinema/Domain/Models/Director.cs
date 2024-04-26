@@ -8,5 +8,8 @@ namespace Domain.Models
 {
     internal class Director
     {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string MovieList { get; set; }
     }
 }

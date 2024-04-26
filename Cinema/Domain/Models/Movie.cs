@@ -9,13 +9,13 @@ namespace Domain.Models
     public class Movie
     {
         public int ID { get; set; }
-        public string name { get; set; }
-        public string genre { get; set; }
-        public string description { get; set; }
-        public int duration { get; set; }
-        public int ageRating { get; set; }
-        public string rating { get; set; }
-        public DateTime releaseDate { get; set; }
-        public string trailers { get; set; }
+        public string Name { get; set; }
+        public string Genre { get; set; }
+        public string Description { get; set; }
+        public int Duration { get; set; }
+        public int AgeRating { get; set; }
+        public string Rating { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public string Trailers { get; set; }
     }
 }
