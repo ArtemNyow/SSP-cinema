@@ -9,7 +9,8 @@ namespace Domain.Models
     internal class Director
     {
         public int ID { get; set; }
-        public int personID { get; set; }
-        
+        public int PersonID { get; set; }
+        public List<Movie> Movies { get; set; }
+
     }
 }

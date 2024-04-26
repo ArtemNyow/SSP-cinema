@@ -9,7 +9,7 @@ namespace Domain.Models
     internal class Actor
     {
         public int ID { get; set; }
-        public int personID { get; set; }
+        public int PersonID { get; set; }
       
     }
 }
