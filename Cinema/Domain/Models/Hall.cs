@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    internal class Hall
+    public class Hall
     {
         public int ID { get; set; }
         public int Number { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    internal class Person
+    public class Person
     {
         public int ID { get; set; }
         public string FirstName { get; set; }

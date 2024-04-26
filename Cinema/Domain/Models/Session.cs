@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    internal class Session
+    public class Session
     {
         public int ID { get; set; }
         public int MovieID { get; set; }
@@ -14,5 +14,9 @@ namespace Domain.Models
         public DateTime DateTime { get; set; }
         public decimal VipPrice { get; set; }
         public decimal TicketPrice { get; set; }
+        public Movie Movie { get; set; }    
+        public Hall Hall { get; set; }
+
+
     }
 }

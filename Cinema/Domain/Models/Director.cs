@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    internal class Director
+    public class Director
     {
         public int ID { get; set; }
         public int PersonID { get; set; }
         public List<Movie> Movies { get; set; }
+        public Person Person { get; set; }
 
     }
 }
