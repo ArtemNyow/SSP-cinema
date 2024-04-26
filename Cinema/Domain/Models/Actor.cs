@@ -10,6 +10,7 @@ namespace Domain.Models
     {
         public int ID { get; set; }
         public int PersonID { get; set; }
-      
+        public List<Movie> Movies { get; set; }
+
     }
 }
