@@ -11,8 +11,8 @@ namespace Domain.Models
         public int ID { get; set; }
         public int Number { get; set; }
         public int RowsCount { get; set; }
-        public int RowsVIPCount { get; set; }
-        public int SeatsCountPreRow { get; set; }
-        public int SeatsVIPCountPreRow { get; set; }
+        public int RowsVipCount { get; set; }
+        public int SeatsCountPerRow { get; set; }
+        public int SeatsVipCountPerRow { get; set; }
     }
 }

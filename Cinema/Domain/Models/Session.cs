@@ -12,7 +12,7 @@ namespace Domain.Models
         public int MovieID { get; set; }
         public int HallID { get; set; }
         public DateTime DateTime { get; set; }
-        public int VipPrice { get; set; }
-        public int TicketPrice { get; set; }
+        public decimal VipPrice { get; set; }
+        public decimal TicketPrice { get; set; }
     }
 }

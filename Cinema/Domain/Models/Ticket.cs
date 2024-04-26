@@ -11,9 +11,9 @@ namespace Domain.Models
         public int ID { get; set; }
         public int SessionID { get; set; }
         public int CustomerID { get; set; }
-        public int Row_number { get; set; }
-        public int Seat_number { get; set; }
-        public int Price { get; set; }
+        public int RowNumber { get; set; }
+        public int SeatNumber { get; set; }
+        public decimal Price { get; set; }
         
     }
 }
