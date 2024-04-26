@@ -12,6 +12,5 @@ namespace Domain.Models
         public int PersonID { get; set; }
         public List<Movie> Movies { get; set; }
         public Person Person { get; set; }
-      
     }
 }

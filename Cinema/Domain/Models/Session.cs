@@ -16,7 +16,5 @@ namespace Domain.Models
         public decimal TicketPrice { get; set; }
         public Movie Movie { get; set; }    
         public Hall Hall { get; set; }
-
-
     }
 }
