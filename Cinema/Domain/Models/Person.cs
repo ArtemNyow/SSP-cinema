@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    internal class Actor
+    internal class Person
     {
-        public int ID { get; set; }
-        public int personID { get; set; }
-      
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

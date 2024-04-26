@@ -9,9 +9,10 @@ namespace Domain.Models
     internal class Hall
     {
         public int ID { get; set; }
-        public string Name { get; set; }
-        public int NumberOfRows { get; set; }
-        public int NumberOfSeeatsPreRow { get; set; }
-        public string SeatType { get; set; }
+        public int Number { get; set; }
+        public int RowsCount { get; set; }
+        public int RowsVIPCount { get; set; }
+        public int SeatsCountPreRow { get; set; }
+        public int SeatsVIPCountPreRow { get; set; }
     }
 }

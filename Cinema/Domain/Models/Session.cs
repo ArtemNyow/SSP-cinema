@@ -10,12 +10,9 @@ namespace Domain.Models
     {
         public int ID { get; set; }
         public int MovieID { get; set; }
-        public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
         public int HallID { get; set; }
-        public int NumberOfSeats { get; set; }
-        public float TicketPrice { get; set; }
-        public string Status { get; set; }
-        public int Occupancy { get; set; }
+        public DateTime DateTime { get; set; }
+        public int VipPrice { get; set; }
+        public int TicketPrice { get; set; }
     }
 }

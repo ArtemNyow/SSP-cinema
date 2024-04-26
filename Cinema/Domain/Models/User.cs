@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    internal class Director
+    public class User
     {
         public int ID { get; set; }
-        public int personID { get; set; }
+        public int PersonID { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Role {  get; set; }  
         
     }
 }
