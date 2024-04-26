@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class Director
     {
         public int ID { get; set; }
         public int PersonID { get; set; }
-        public List<Movie> Movies { get; set; }
+        public List<Movie> Movies { get; set; } = new();
         public Person Person { get; set; }
     }
 }

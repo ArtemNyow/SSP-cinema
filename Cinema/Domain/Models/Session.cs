@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class Session
     {
@@ -12,7 +6,7 @@ namespace Domain.Models
         public int MovieID { get; set; }
         public int HallID { get; set; }
         public DateTime DateTime { get; set; }
-        public decimal VipPrice { get; set; }
+        public decimal TicketVipPrice { get; set; }
         public decimal TicketPrice { get; set; }
         public Movie Movie { get; set; }    
         public Hall Hall { get; set; }

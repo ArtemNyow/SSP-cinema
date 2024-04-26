@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class Movie
     {
@@ -15,6 +9,6 @@ namespace Domain.Models
         public int AgeRating { get; set; }
         public int Rating { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public string Trailers { get; set; }
+        public string Trailer { get; set; }
     }
 }
