@@ -10,5 +10,6 @@ namespace Domain.Models
         public string Password { get; set; }
         public UserRole Role {  get; set; }  
         public Person Person { get; set; }
+        public List<Ticket> Tickets { get; set; } = new();
     }
 }

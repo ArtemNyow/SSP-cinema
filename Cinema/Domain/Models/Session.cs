@@ -8,7 +8,7 @@
         public DateTime DateTime { get; set; }
         public decimal TicketVipPrice { get; set; }
         public decimal TicketPrice { get; set; }
-        public Movie Movie { get; set; }    
+        public Movie Movie { get; set; }  
         public Hall Hall { get; set; }
     }
 }
