@@ -14,17 +14,9 @@ public class CinemaDbContext : DbContext
     public DbSet<Session> Sessions { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<User> Users { get; set; }
-
-    public CinemaDbContext() { }
     
     public CinemaDbContext(DbContextOptions<CinemaDbContext> options) : base(options) { }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer(@"");
-    }
-
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -60,32 +52,32 @@ public class CinemaDbContext : DbContext
             .HasKey(e => e.ID);
         modelBuilder.Entity<Ticket>()
             .HasOne<User>(e => e.User)
-            .WithMany()
+            .WithMany(u => u.Tickets)
             .HasForeignKey(t => t.UserID)
             .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<Movie>()
             .HasKey(e => e.ID);
         modelBuilder.Entity<Movie>()
-            .HasMany<Actor>()
+            .HasMany<Actor>(e => e.Actors)
             .WithMany(a => a.Movies);
         modelBuilder.Entity<Movie>()
-            .HasMany<Director>()
+            .HasMany<Director>(e => e.Directors)
             .WithMany(d => d.Movies);
         modelBuilder.Entity<Movie>()
-            .HasMany<Genre>()
-            .WithMany();
+            .HasMany<Genre>(e => e.Genres)
+            .WithMany(g => g.Movies);
         
         modelBuilder.Entity<Session>()
             .HasKey(e => e.ID);
         modelBuilder.Entity<Session>()
             .HasOne<Movie>(e => e.Movie)
-            .WithMany()
+            .WithMany(m => m.Sessions)
             .HasForeignKey(e => e.MovieID)
             .OnDelete(DeleteBehavior.Restrict);
         modelBuilder.Entity<Session>()
             .HasOne<Hall>(e => e.Hall)
-            .WithMany()
+            .WithMany(h => h.Sessions)
             .HasForeignKey(e => e.HallID)
             .OnDelete(DeleteBehavior.Restrict);
         

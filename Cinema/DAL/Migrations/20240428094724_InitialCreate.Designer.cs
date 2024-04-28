@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    [Migration("20240427130335_InitialCreate")]
+    [Migration("20240428094724_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,13 +27,13 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("ActorMovie", b =>
                 {
-                    b.Property<int>("ActorID")
+                    b.Property<int>("ActorsID")
                         .HasColumnType("int");
 
                     b.Property<int>("MoviesID")
                         .HasColumnType("int");
 
-                    b.HasKey("ActorID", "MoviesID");
+                    b.HasKey("ActorsID", "MoviesID");
 
                     b.HasIndex("MoviesID");
 
@@ -42,13 +42,13 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DirectorMovie", b =>
                 {
-                    b.Property<int>("DirectorID")
+                    b.Property<int>("DirectorsID")
                         .HasColumnType("int");
 
                     b.Property<int>("MoviesID")
                         .HasColumnType("int");
 
-                    b.HasKey("DirectorID", "MoviesID");
+                    b.HasKey("DirectorsID", "MoviesID");
 
                     b.HasIndex("MoviesID");
 
@@ -292,15 +292,15 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("GenreMovie", b =>
                 {
-                    b.Property<int>("GenreID")
+                    b.Property<int>("GenresID")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovieID")
+                    b.Property<int>("MoviesID")
                         .HasColumnType("int");
 
-                    b.HasKey("GenreID", "MovieID");
+                    b.HasKey("GenresID", "MoviesID");
 
-                    b.HasIndex("MovieID");
+                    b.HasIndex("MoviesID");
 
                     b.ToTable("GenreMovie");
                 });
@@ -309,7 +309,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.Models.Actor", null)
                         .WithMany()
-                        .HasForeignKey("ActorID")
+                        .HasForeignKey("ActorsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -324,7 +324,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.Models.Director", null)
                         .WithMany()
-                        .HasForeignKey("DirectorID")
+                        .HasForeignKey("DirectorsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -360,13 +360,13 @@ namespace DAL.Migrations
             modelBuilder.Entity("Domain.Models.Session", b =>
                 {
                     b.HasOne("Domain.Models.Hall", "Hall")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("HallID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Movie", "Movie")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -385,7 +385,7 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Tickets")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -410,15 +410,30 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.Models.Genre", null)
                         .WithMany()
-                        .HasForeignKey("GenreID")
+                        .HasForeignKey("GenresID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Movie", null)
                         .WithMany()
-                        .HasForeignKey("MovieID")
+                        .HasForeignKey("MoviesID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Models.Hall", b =>
+                {
+                    b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("Domain.Models.Movie", b =>
+                {
+                    b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

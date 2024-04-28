@@ -78,21 +78,21 @@ namespace DAL.Migrations
                 name: "GenreMovie",
                 columns: table => new
                 {
-                    GenreID = table.Column<int>(type: "int", nullable: false),
-                    MovieID = table.Column<int>(type: "int", nullable: false)
+                    GenresID = table.Column<int>(type: "int", nullable: false),
+                    MoviesID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GenreMovie", x => new { x.GenreID, x.MovieID });
+                    table.PrimaryKey("PK_GenreMovie", x => new { x.GenresID, x.MoviesID });
                     table.ForeignKey(
-                        name: "FK_GenreMovie_Genres_GenreID",
-                        column: x => x.GenreID,
+                        name: "FK_GenreMovie_Genres_GenresID",
+                        column: x => x.GenresID,
                         principalTable: "Genres",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GenreMovie_Movies_MovieID",
-                        column: x => x.MovieID,
+                        name: "FK_GenreMovie_Movies_MoviesID",
+                        column: x => x.MoviesID,
                         principalTable: "Movies",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -191,15 +191,15 @@ namespace DAL.Migrations
                 name: "ActorMovie",
                 columns: table => new
                 {
-                    ActorID = table.Column<int>(type: "int", nullable: false),
+                    ActorsID = table.Column<int>(type: "int", nullable: false),
                     MoviesID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActorMovie", x => new { x.ActorID, x.MoviesID });
+                    table.PrimaryKey("PK_ActorMovie", x => new { x.ActorsID, x.MoviesID });
                     table.ForeignKey(
-                        name: "FK_ActorMovie_Actors_ActorID",
-                        column: x => x.ActorID,
+                        name: "FK_ActorMovie_Actors_ActorsID",
+                        column: x => x.ActorsID,
                         principalTable: "Actors",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -215,15 +215,15 @@ namespace DAL.Migrations
                 name: "DirectorMovie",
                 columns: table => new
                 {
-                    DirectorID = table.Column<int>(type: "int", nullable: false),
+                    DirectorsID = table.Column<int>(type: "int", nullable: false),
                     MoviesID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DirectorMovie", x => new { x.DirectorID, x.MoviesID });
+                    table.PrimaryKey("PK_DirectorMovie", x => new { x.DirectorsID, x.MoviesID });
                     table.ForeignKey(
-                        name: "FK_DirectorMovie_Directors_DirectorID",
-                        column: x => x.DirectorID,
+                        name: "FK_DirectorMovie_Directors_DirectorsID",
+                        column: x => x.DirectorsID,
                         principalTable: "Directors",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -287,9 +287,9 @@ namespace DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_GenreMovie_MovieID",
+                name: "IX_GenreMovie_MoviesID",
                 table: "GenreMovie",
-                column: "MovieID");
+                column: "MoviesID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sessions_HallID",
