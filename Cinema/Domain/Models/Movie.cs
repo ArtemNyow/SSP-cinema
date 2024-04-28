@@ -10,5 +10,9 @@
         public int Rating { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string Trailer { get; set; }
+        public List<Actor> Actors { get; set; } = new();
+        public List<Director> Directors { get; set; } = new();
+        public List<Genre> Genres { get; set; } = new();
+        public List<Session> Sessions { get; set; } = new();
     }
 }
