@@ -8,6 +8,6 @@
         public int RowsVipCount { get; set; }
         public int SeatsCountPerRow { get; set; }
         public int SeatsVipCountPerRow { get; set; }
-        public List<Session> Sessions { get; set; }
+        public List<Session> Sessions { get; set; } = new();
     }
 }
