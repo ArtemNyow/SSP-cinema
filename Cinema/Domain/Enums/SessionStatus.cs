@@ -4,5 +4,6 @@
     {
         Active = 1,
         Archived = 2,
+        Cancelled = 3,
     }
 }
