@@ -2,9 +2,8 @@
 
 namespace Domain.Models
 {
-    public class Session
+    public class Session : BaseEntity
     {
-        public int ID { get; set; }
         public int MovieID { get; set; }
         public int HallID { get; set; }
         public DateTime DateTime { get; set; }
