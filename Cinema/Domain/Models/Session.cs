@@ -1,4 +1,6 @@
-﻿namespace Domain.Models
+﻿using Domain.Enums;
+
+namespace Domain.Models
 {
     public class Session
     {
@@ -8,6 +10,7 @@
         public DateTime DateTime { get; set; }
         public decimal TicketVipPrice { get; set; }
         public decimal TicketPrice { get; set; }
+        public SessionStatus Status { get; set; }
         public Movie Movie { get; set; }  
         public Hall Hall { get; set; }
     }
