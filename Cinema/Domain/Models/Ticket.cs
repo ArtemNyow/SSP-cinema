@@ -1,8 +1,7 @@
 ﻿namespace Domain.Models
 {
-    public class Ticket
+    public class Ticket : BaseEntity
     {
-        public int ID { get; set; }
         public int SessionID { get; set; }
         public int UserID { get; set; }
         public int RowNumber { get; set; }

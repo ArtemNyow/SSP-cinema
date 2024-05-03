@@ -1,8 +1,7 @@
 ﻿namespace Domain.Models
 {
-    public class Hall
+    public class Hall : BaseEntity
     {
-        public int ID { get; set; }
         public int Number { get; set; }
         public int RowsCount { get; set; }
         public int RowsVipCount { get; set; }
