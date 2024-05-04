@@ -13,18 +13,22 @@ namespace BLL.Services
             _personRepository = PersonRepository;
         }
 
-        public async Task AddAsync(Person model)
+        public async Task<Person> AddAsync(Person model)
         {
             ValidatePerson(model);
 
-            await _personRepository.AddAsync(model);
+            Person entity = await _personRepository.AddAsync(model);
             await _personRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Person> DeleteAsync(int id)
         {
-            await _personRepository.DeleteAsync(id);
+            Person entity = await _personRepository.DeleteAsync(id);
             await _personRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Person> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _personRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Person model)
+        public async Task<Person> UpdateAsync(Person model)
         {
             ValidatePerson(model);
 
-            _personRepository.Update(model);
+            Person entity = _personRepository.Update(model);
             await _personRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidatePerson(Person person)

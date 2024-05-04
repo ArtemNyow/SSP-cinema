@@ -13,18 +13,22 @@ namespace BLL.Services
             _directorRepository = DirectorRepository;
         }
 
-        public async Task AddAsync(Director model)
+        public async Task<Director> AddAsync(Director model)
         {
             ValidateDirector(model);
 
-            await _directorRepository.AddAsync(model);
+            Director entity = await _directorRepository.AddAsync(model);
             await _directorRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Director> DeleteAsync(int id)
         {
-            await _directorRepository.DeleteAsync(id);
+            Director entity = await _directorRepository.DeleteAsync(id);
             await _directorRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Director> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _directorRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Director model)
+        public async Task<Director> UpdateAsync(Director model)
         {
             ValidateDirector(model);
 
-            _directorRepository.Update(model);
+            Director entity = _directorRepository.Update(model);
             await _directorRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateDirector(Director director)

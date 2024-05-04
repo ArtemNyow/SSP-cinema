@@ -13,18 +13,22 @@ namespace BLL.Services
             _sessionRepository = SessionRepository;
         }
 
-        public async Task AddAsync(Session model)
+        public async Task<Session> AddAsync(Session model)
         {
             ValidateSession(model);
 
-            await _sessionRepository.AddAsync(model);
+            Session entity = await _sessionRepository.AddAsync(model);
             await _sessionRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Session> DeleteAsync(int id)
         {
-            await _sessionRepository.DeleteAsync(id);
+            Session entity = await _sessionRepository.DeleteAsync(id);
             await _sessionRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Session> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _sessionRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Session model)
+        public async Task<Session> UpdateAsync(Session model)
         {
             ValidateSession(model);
 
-            _sessionRepository.Update(model);
+            Session entity = _sessionRepository.Update(model);
             await _sessionRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateSession(Session session)

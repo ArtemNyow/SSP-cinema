@@ -15,20 +15,24 @@ namespace BLL.Services
             _passwordHashService = passwordHashService;
         }
 
-        public async Task AddAsync(User model)
+        public async Task<User> AddAsync(User model)
         {
             ValidateUser(model);
 
             model.Password = _passwordHashService.Hash(model.Password);
 
-            await _userRepository.AddAsync(model);
+            User entity = await _userRepository.AddAsync(model);
             await _userRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<User> DeleteAsync(int id)
         {
-            await _userRepository.DeleteAsync(id);
+            User entity = await _userRepository.DeleteAsync(id);
             await _userRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<User> GetAll()
@@ -41,14 +45,16 @@ namespace BLL.Services
             return _userRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(User model)
+        public async Task<User> UpdateAsync(User model)
         {
             ValidateUser(model);
 
             model.Password = _passwordHashService.Hash(model.Password);
 
-            _userRepository.Update(model);
+            User entity = _userRepository.Update(model);
             await _userRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateUser(User user)

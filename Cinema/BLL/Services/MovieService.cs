@@ -13,18 +13,22 @@ namespace BLL.Services
             _movieRepository = movieRepository;
         }
 
-        public async Task AddAsync(Movie model)
+        public async Task<Movie> AddAsync(Movie model)
         {
             ValidateMovie(model);
 
-            await _movieRepository.AddAsync(model);
+            Movie entity = await _movieRepository.AddAsync(model);
             await _movieRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Movie> DeleteAsync(int id)
         {
-            await _movieRepository.DeleteAsync(id);
+            Movie entity = await _movieRepository.DeleteAsync(id);
             await _movieRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Movie> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _movieRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Movie model)
+        public async Task<Movie> UpdateAsync(Movie model)
         {
             ValidateMovie(model);
 
-            _movieRepository.Update(model);
+            Movie entity = _movieRepository.Update(model);
             await _movieRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateMovie(Movie movie)

@@ -13,18 +13,22 @@ namespace BLL.Services
             _actorRepository = ActorRepository;
         }
 
-        public async Task AddAsync(Actor model)
+        public async Task<Actor> AddAsync(Actor model)
         {
             ValidateActor(model);
 
-            await _actorRepository.AddAsync(model);
+            Actor entity = await _actorRepository.AddAsync(model);
             await _actorRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Actor> DeleteAsync(int id)
         {
-            await _actorRepository.DeleteAsync(id);
+            Actor entity = await _actorRepository.DeleteAsync(id);
             await _actorRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Actor> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _actorRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Actor model)
+        public async Task<Actor> UpdateAsync(Actor model)
         {
             ValidateActor(model);
 
-            _actorRepository.Update(model);
+            Actor entity = _actorRepository.Update(model);
             await _actorRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateActor(Actor actor)

@@ -6,8 +6,8 @@ namespace BLL.Interfaces
     {
         IQueryable<T> GetAll();
         Task<T> GetByIdAsync(int id);
-        Task AddAsync(T model);
-        Task UpdateAsync(T model);
-        Task DeleteAsync(int id);
+        Task<T> AddAsync(T model);
+        Task<T> UpdateAsync(T model);
+        Task<T> DeleteAsync(int id);
     }
 }

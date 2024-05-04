@@ -13,18 +13,22 @@ namespace BLL.Services
             _hallRepository = HallRepository;
         }
 
-        public async Task AddAsync(Hall model)
+        public async Task<Hall> AddAsync(Hall model)
         {
             ValidateHall(model);
 
-            await _hallRepository.AddAsync(model);
+            Hall entity = await _hallRepository.AddAsync(model);
             await _hallRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Hall> DeleteAsync(int id)
         {
-            await _hallRepository.DeleteAsync(id);
+            Hall entity = await _hallRepository.DeleteAsync(id);
             await _hallRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Hall> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _hallRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Hall model)
+        public async Task<Hall> UpdateAsync(Hall model)
         {
             ValidateHall(model);
 
-            _hallRepository.Update(model);
+            Hall entity = _hallRepository.Update(model);
             await _hallRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateHall(Hall hall)

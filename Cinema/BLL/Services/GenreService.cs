@@ -13,18 +13,22 @@ namespace BLL.Services
             _genreRepository = GenreRepository;
         }
 
-        public async Task AddAsync(Genre model)
+        public async Task<Genre> AddAsync(Genre model)
         {
             ValidateGenre(model);
 
-            await _genreRepository.AddAsync(model);
+            Genre entity = await _genreRepository.AddAsync(model);
             await _genreRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Genre> DeleteAsync(int id)
         {
-            await _genreRepository.DeleteAsync(id);
+            Genre entity = await _genreRepository.DeleteAsync(id);
             await _genreRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Genre> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _genreRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Genre model)
+        public async Task<Genre> UpdateAsync(Genre model)
         {
             ValidateGenre(model);
 
-            _genreRepository.Update(model);
+            Genre entity = _genreRepository.Update(model);
             await _genreRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateGenre(Genre genre)

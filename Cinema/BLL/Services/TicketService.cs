@@ -13,18 +13,22 @@ namespace BLL.Services
             _ticketRepository = TicketRepository;
         }
 
-        public async Task AddAsync(Ticket model)
+        public async Task<Ticket> AddAsync(Ticket model)
         {
             ValidateTicket(model);
 
-            await _ticketRepository.AddAsync(model);
+            Ticket entity = await _ticketRepository.AddAsync(model);
             await _ticketRepository.SaveAsync();
+
+            return entity;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Ticket> DeleteAsync(int id)
         {
-            await _ticketRepository.DeleteAsync(id);
+            Ticket entity = await _ticketRepository.DeleteAsync(id);
             await _ticketRepository.SaveAsync();
+
+            return entity;
         }
 
         public IQueryable<Ticket> GetAll()
@@ -37,12 +41,14 @@ namespace BLL.Services
             return _ticketRepository.GetAsync(id);
         }
 
-        public async Task UpdateAsync(Ticket model)
+        public async Task<Ticket> UpdateAsync(Ticket model)
         {
             ValidateTicket(model);
 
-            _ticketRepository.Update(model);
+            Ticket entity = _ticketRepository.Update(model);
             await _ticketRepository.SaveAsync();
+
+            return entity;
         }
 
         protected void ValidateTicket(Ticket ticket)
