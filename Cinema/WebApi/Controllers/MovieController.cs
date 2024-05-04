@@ -2,39 +2,41 @@
 using BLL.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace WebApi
+namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class MovieController : ControllerBase 
+    public class MovieController : ControllerBase
+
     {
         private readonly IMovieService _movieService;
-        public MovieController(IMovieService movieService) 
+        public MovieController(IMovieService movieService)
         {
             _movieService = movieService;
         }
 
         [HttpGet]
-        public ActionResult<List<Movie>> GetMovies()
+        public async Task<ActionResult<List<Movie>>> GetMovies()
         {
             try
             {
-                var movies = _movieService.GetAll().ToList();
+                var movies = await _movieService.GetAll().ToListAsync();
                 return Ok(movies);
             }
             catch (Exception ex)
             {
-                return StatusCode(500,$"Internal server error: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Movie>> AddMovie([FromBody]Movie movie)
+        [HttpPut]
+        public async Task<ActionResult<Movie>> AddMovie([FromBody] Movie movie)
         {
             try
             {
-                var addedMovie  = await _movieService.AddAsync(movie);
+                var addedMovie = await _movieService.AddAsync(movie);
                 return Ok(addedMovie);
             }
             catch (Exception ex)
@@ -58,12 +60,12 @@ namespace WebApi
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMoviesById(int id)
+        public async Task<ActionResult<Movie>> GetMovieById(int id)
         {
             try
             {
-                var getMoviesById = await _movieService.GetByIdAsync(id);
-                return Ok(getMoviesById);
+                var getMovieById = await _movieService.GetByIdAsync(id);
+                return Ok(getMovieById);
             }
             catch (Exception ex)
             {
@@ -76,8 +78,8 @@ namespace WebApi
         {
             try
             {
-                var addedMovie = await _movieService.UpdateAsync(movie);
-                return Ok(addedMovie);
+                var updatedMovie = await _movieService.UpdateAsync(movie);
+                return Ok(updatedMovie);
             }
             catch (Exception ex)
             {
