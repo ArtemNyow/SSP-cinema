@@ -18,25 +18,30 @@ public class GenericRepository<T> : IGenericRepository<T> where T: BaseEntity
     public IQueryable<T> GetAll(params string[] includeProperties)
     {
         IQueryable<T> query = _dbSet.AsQueryable();
+        
         foreach (var includeProperty in includeProperties)
         {
             query = query.Include(includeProperty);
         }
+        
         return query;
     }
 
     public async Task<T> GetAsync(long id, params string[] includeProperties)
     {
         IQueryable<T> query = _dbSet.AsQueryable();
+        
         foreach (var includeProperty in includeProperties)
         {
             query = query.Include(includeProperty);
         }
+        
         var item = await query.FirstOrDefaultAsync(entity => entity.ID == id);
         if (item == null)
         {
             throw new KeyNotFoundException();
         }
+        
         return item;
     }
     
