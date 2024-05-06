@@ -14,21 +14,29 @@ public class GenericRepository<T> : IGenericRepository<T> where T: BaseEntity
         _dbContext = dbContext;
         _dbSet = dbContext.Set<T>();
     }
-
-    public IQueryable<T> GetAll()
-    {
-        return _dbSet.AsQueryable();
-    }
     
-    public async Task<T> GetAsync(long id)
+    public IQueryable<T> GetAll(params string[] includeProperties)
     {
-        var item = await _dbSet.FindAsync(id);
-        if (item is null)
+        IQueryable<T> query = _dbSet.AsQueryable();
+        foreach (var includeProperty in includeProperties)
         {
-            //TODO
+            query = query.Include(includeProperty);
+        }
+        return query;
+    }
+
+    public async Task<T> GetAsync(long id, params string[] includeProperties)
+    {
+        IQueryable<T> query = _dbSet.AsQueryable();
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        var item = await query.FirstOrDefaultAsync(entity => entity.ID == id);
+        if (item == null)
+        {
             throw new KeyNotFoundException();
         }
-
         return item;
     }
     
