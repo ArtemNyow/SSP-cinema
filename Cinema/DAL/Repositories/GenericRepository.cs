@@ -14,7 +14,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T: BaseEntity
         _dbContext = dbContext;
         _dbSet = dbContext.Set<T>();
     }
-    
+
     public IQueryable<T> GetAll(params string[] includeProperties)
     {
         IQueryable<T> query = _dbSet.AsQueryable();
