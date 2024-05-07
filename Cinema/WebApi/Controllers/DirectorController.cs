@@ -9,7 +9,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class DirectorController : ControllerBase
-
     {
         private readonly IDirectorService _directorService;
         public DirectorController(IDirectorService directorService)

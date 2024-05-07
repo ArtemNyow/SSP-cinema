@@ -10,7 +10,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class ActorController : ControllerBase
-
     {
         private readonly IActorService _actorService;
         public ActorController(IActorService actorService)

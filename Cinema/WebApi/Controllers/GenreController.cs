@@ -10,7 +10,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class HallGenre : ControllerBase
-
     {
         private readonly IGenreService _genreService;
         public HallGenre(IGenreService genreService)

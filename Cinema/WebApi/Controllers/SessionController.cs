@@ -9,7 +9,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class SessionController : ControllerBase
-
     {
         private readonly ISessionService _sessionService;
         public SessionController(ISessionService sessionService)

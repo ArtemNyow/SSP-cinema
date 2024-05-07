@@ -10,7 +10,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class TicketController : ControllerBase
-
     {
         private readonly ITicketService _ticketService;
         public TicketController(ITicketService ticketService)

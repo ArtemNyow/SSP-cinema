@@ -10,7 +10,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class HallController : ControllerBase
-
     {
         private readonly IHallService _hallService;
         public HallController(IHallService hallService)

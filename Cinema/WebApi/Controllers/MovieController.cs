@@ -9,7 +9,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class MovieController : ControllerBase
-
     {
         private readonly IMovieService _movieService;
         public MovieController(IMovieService movieService)

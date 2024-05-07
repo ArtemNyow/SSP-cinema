@@ -9,7 +9,6 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class PersonController : ControllerBase
-
     {
         private readonly IPersonService _personService;
         public PersonController(IPersonService personService)
