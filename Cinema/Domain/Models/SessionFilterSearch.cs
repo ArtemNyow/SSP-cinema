@@ -9,7 +9,7 @@
         public int? MinPrice { get; set; }
         public int? MaxPrice { get; set; }
         public int? HallNumber { get; set; }
-        public string? MovieGenre { get; set; }
+        public string[]? MovieGenres { get; set; }
         public string? MovieTitle { get; set; }
 
         public SessionFilterSearch() { }
@@ -21,9 +21,9 @@
             DateOnly? dateTo, 
             int? minPrice, 
             int? maxPrice, 
-            int hallNumber, 
-            string movieGenre, 
-            string movieTitle)
+            int? hallNumber,
+            string[]? movieGenres, 
+            string? movieTitle)
         {
             TimeFrom = timeFrom;
             TimeTo = timeTo;
@@ -32,7 +32,7 @@
             MinPrice = minPrice;
             MaxPrice = maxPrice;
             HallNumber = hallNumber;
-            MovieGenre = movieGenre;
+            MovieGenres = movieGenres;
             MovieTitle = movieTitle;
         }
     }
