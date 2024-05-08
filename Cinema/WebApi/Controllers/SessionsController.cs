@@ -68,7 +68,7 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/seesions
+        // PUT: api/sessions
         [HttpPut]
         public async Task<ActionResult<Session>> Add([FromBody] Session session)
         {
@@ -83,7 +83,7 @@ namespace WebApi.Controllers
             }
         }
 
-        // DELETE: api/seesions/1
+        // DELETE: api/sessions/1
         [HttpDelete("{id}")]
         public async Task<ActionResult<Session>> Delete(int id)
         {
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
             }
         }
 
-        // POST: api/seesions
+        // POST: api/sessions
         [HttpPost]
         public async Task<ActionResult<Session>> Update([FromBody] Session session)
         {
