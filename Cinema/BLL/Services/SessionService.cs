@@ -49,7 +49,6 @@ namespace BLL.Services
                     (filter.MinPrice == null || s.TicketPrice >= filter.MinPrice) &&
                     (filter.MaxPrice == null || s.TicketPrice <= filter.MaxPrice) &&
                     (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
-                    (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
                     (filter.MovieGenres == null || s.Movie.Genres.Any(g => filter.MovieGenres.Contains(g.Name))) &&
                     (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle)));
         }
