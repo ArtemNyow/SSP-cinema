@@ -85,5 +85,19 @@ namespace WebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("tickets/{id}")]
+        public async Task<ActionResult<List<User>>> GetTicketbyUserId(int id)
+        {
+            try
+            {
+                var getTicketbyUserId = await _userService.GetTicketsByUserId(id);
+                return Ok(getTicketbyUserId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
