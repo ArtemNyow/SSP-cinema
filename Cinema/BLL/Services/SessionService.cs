@@ -36,6 +36,24 @@ namespace BLL.Services
             return _sessionRepository.GetAll();
         }
 
+        public IQueryable<Session> GetByFilter(SessionFilterSearch filter)
+        {
+            IQueryable<Session> sessions = _sessionRepository.GetAll("Hall", "Movie.Genres");
+
+            return sessions
+                .Where(s =>
+                    (filter.DateFrom == null || DateOnly.FromDateTime(s.DateTime) >= filter.DateFrom) &&
+                    (filter.DateTo == null || DateOnly.FromDateTime(s.DateTime) <= filter.DateTo) &&
+                    (filter.TimeFrom == null || TimeOnly.FromDateTime(s.DateTime) >= filter.TimeFrom) &&
+                    (filter.TimeTo == null || TimeOnly.FromDateTime(s.DateTime) <= filter.TimeTo) &&
+                    (filter.MinPrice == null || s.TicketPrice >= filter.MinPrice) &&
+                    (filter.MaxPrice == null || s.TicketPrice <= filter.MaxPrice) &&
+                    (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
+                    (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
+                    (filter.MovieGenres == null || s.Movie.Genres.Any(g => filter.MovieGenres.Contains(g.Name))) &&
+                    (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle)));
+        }
+
         public Task<Session> GetByIdAsync(int id)
         {
             return _sessionRepository.GetAsync(id);
