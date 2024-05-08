@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;

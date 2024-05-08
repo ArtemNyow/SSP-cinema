@@ -8,7 +8,7 @@ using System.Net.Sockets;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class TicketController : ControllerBase
     {
         private readonly ITicketService _ticketService;
