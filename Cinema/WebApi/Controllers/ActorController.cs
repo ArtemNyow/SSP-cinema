@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class ActorController : ControllerBase
     {
         private readonly IActorService _actorService;
