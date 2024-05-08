@@ -8,14 +8,11 @@ namespace BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHashService _passwordHashService;
-        private readonly IQueryable<Ticket> _ticketQuery;
 
-        public UserService(IUserRepository userRepository, IPasswordHashService passwordHashService, IQueryable<Ticket> ticketQuery)
+        public UserService(IUserRepository userRepository, IPasswordHashService passwordHashService)
         {
             _userRepository = userRepository;
             _passwordHashService = passwordHashService;
-            _ticketQuery = ticketQuery;
-            _ticketQuery = ticketQuery;
         }
 
         public async Task<User> AddAsync(User model)
@@ -60,9 +57,10 @@ namespace BLL.Services
             return entity;
         }
 
-        public List<Ticket> GetTicketsByUserId(int userId)
+        public async Task<List<Ticket>> GetTicketsByUserId(int id)
         {
-            return _ticketQuery.Where(ticket => ticket.UserID == userId).ToList();
+            var user = await _userRepository.GetAsync(id, "Tickets");
+            return user.Tickets;
         }
 
         protected void ValidateUser(User user)
