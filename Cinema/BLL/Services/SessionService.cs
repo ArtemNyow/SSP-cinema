@@ -42,10 +42,10 @@ namespace BLL.Services
 
             return sessions
                 .Where(s =>
-                    (s.DateTime >= ((DateOnly)filter.DateFrom!).ToDateTime(TimeOnly.MinValue)) &&
-                    (s.DateTime <= ((DateOnly)filter.DateTo!).ToDateTime(TimeOnly.MinValue)) &&
-                    (s.DateTime.TimeOfDay >= ((TimeOnly)filter.TimeFrom!).ToTimeSpan()) &&
-                    (s.DateTime.TimeOfDay <= ((TimeOnly)filter.TimeTo!).ToTimeSpan()) &&
+                    (s.DateTime >= filter.DateFrom.ToDateTime(TimeOnly.MinValue)) &&
+                    (s.DateTime <= filter.DateTo.ToDateTime(TimeOnly.MinValue)) &&
+                    (s.DateTime.TimeOfDay >= filter.TimeFrom.ToTimeSpan()) &&
+                    (s.DateTime.TimeOfDay <= filter.TimeTo.ToTimeSpan()) &&
                     (s.TicketPrice >= filter.MinPrice) &&
                     (s.TicketPrice <= filter.MaxPrice) &&
                     (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
