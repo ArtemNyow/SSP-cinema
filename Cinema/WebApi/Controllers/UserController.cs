@@ -86,13 +86,13 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet("tickets/{id}")]
+        [HttpGet("{id}/tickets")]
         public async Task<ActionResult<List<User>>> GetTicketbyUserId(int id)
         {
             try
             {
-                var getTicketbyUserId = await _userService.GetTicketsByUserId(id);
-                return Ok(getTicketbyUserId);
+                var userTickets = await _userService.GetTicketsByUserId(id);
+                return Ok(userTickets);
             }
             catch (Exception ex)
             {
