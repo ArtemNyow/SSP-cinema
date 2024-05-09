@@ -9,7 +9,7 @@
         public int? MinPrice { get; set; }
         public int? MaxPrice { get; set; }
         public int? HallNumber { get; set; }
-        public string[]? MovieGenres { get; set; }
+        public string[] MovieGenres { get; set; } = Array.Empty<string>();
         public string? MovieTitle { get; set; }
 
         public SessionFilterSearch() { }
@@ -22,7 +22,7 @@
             int? minPrice, 
             int? maxPrice, 
             int? hallNumber,
-            string[]? movieGenres, 
+            string[] movieGenres, 
             string? movieTitle)
         {
             TimeFrom = timeFrom;
