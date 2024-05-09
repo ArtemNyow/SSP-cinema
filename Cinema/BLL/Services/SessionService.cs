@@ -42,15 +42,15 @@ namespace BLL.Services
 
             return sessions
                 .Where(s =>
-                    (DateOnly.FromDateTime(s.DateTime) >= filter.DateFrom) &&
-                    (DateOnly.FromDateTime(s.DateTime) <= filter.DateTo) &&
-                    (TimeOnly.FromDateTime(s.DateTime) >= filter.TimeFrom) &&
-                    (TimeOnly.FromDateTime(s.DateTime) <= filter.TimeTo) &&
+                    (s.DateTime >= ((DateOnly)filter.DateFrom!).ToDateTime(TimeOnly.MinValue)) &&
+                    (s.DateTime <= ((DateOnly)filter.DateTo!).ToDateTime(TimeOnly.MinValue)) &&
+                    (s.DateTime.TimeOfDay >= ((TimeOnly)filter.TimeFrom!).ToTimeSpan()) &&
+                    (s.DateTime.TimeOfDay <= ((TimeOnly)filter.TimeTo!).ToTimeSpan()) &&
                     (s.TicketPrice >= filter.MinPrice) &&
                     (s.TicketPrice <= filter.MaxPrice) &&
                     (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
-                    (filter.MovieGenres == null || s.Movie.Genres.Any(g => filter.MovieGenres.Contains(g.Name))) &&
-                    (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle)));
+                    (filter.MovieGenres.Length == 0 || s.Movie.Genres.Any(g => filter.MovieGenres.Contains(g.Name))) &&
+                    (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public Task<Session> GetByIdAsync(int id)
