@@ -1,12 +1,14 @@
-using DAL;
 using BLL;
 using DAL;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions
+                .ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.AddBusinessLogicLayer();
