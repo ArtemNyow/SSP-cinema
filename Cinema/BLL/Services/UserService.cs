@@ -57,6 +57,12 @@ namespace BLL.Services
             return entity;
         }
 
+        public async Task<List<Ticket>> GetTicketsByUserId(int id)
+        {
+            var user = await _userRepository.GetAsync(id, "Tickets");
+            return user.Tickets;
+        }
+
         protected void ValidateUser(User user)
         {
             ArgumentNullException.ThrowIfNull(user);
