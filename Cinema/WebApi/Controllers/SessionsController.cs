@@ -33,12 +33,12 @@ namespace WebApi.Controllers
             {
                 SessionFilterSearch filter = new SessionFilterSearch()
                 {
-                    DateFrom = dateFrom,
-                    DateTo = dateTo,
-                    TimeFrom = timeFrom,
-                    TimeTo = timeTo,
-                    MinPrice = minPrice,
-                    MaxPrice = maxPrice,
+                    DateFrom = dateFrom ?? DateOnly.MinValue,
+                    DateTo = dateTo ?? DateOnly.MaxValue,
+                    TimeFrom = timeFrom ?? TimeOnly.MinValue,
+                    TimeTo = timeTo ?? TimeOnly.MaxValue,
+                    MinPrice = minPrice ?? 0,
+                    MaxPrice = maxPrice ?? int.MaxValue,
                     HallNumber = hallNumber,
                     MovieGenres = movieGenres,
                     MovieTitle = movieTitle,
