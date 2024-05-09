@@ -6,7 +6,7 @@
         public string Description { get; set; }
         public int Duration { get; set; }
         public int AgeRating { get; set; }
-        public int Rating { get; set; }
+        public double Rating { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string Trailer { get; set; }
         public List<Actor> Actors { get; set; } = new();
