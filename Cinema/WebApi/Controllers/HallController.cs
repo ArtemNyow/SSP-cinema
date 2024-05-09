@@ -8,7 +8,7 @@ using System;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class HallController : ControllerBase
     {
         private readonly IHallService _hallService;
