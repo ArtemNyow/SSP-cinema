@@ -1,5 +1,6 @@
 ﻿using BLL.Interfaces;
 using DAL.Interfaces;
+using Domain.Enums;
 using Domain.Models;
 
 namespace BLL.Services
@@ -55,7 +56,8 @@ namespace BLL.Services
 
         public IQueryable<Session> GetActiveSessions()
         {
-            return _sessionRepository.GetActiveSessions();
+            return _sessionRepository.GetAll("Movie", "Hall")
+                .Where(e => e.Status == SessionStatus.Active);
         }
 
         public Task<Session> GetByIdAsync(int id)
