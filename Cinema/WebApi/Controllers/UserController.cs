@@ -99,5 +99,19 @@ namespace WebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("{id}/recommendations")]
+        public async Task<ActionResult<List<Session>>> GetRecommendations(int id)
+        {
+            try
+            {
+                var userRecommendations = await _userService.GetPersonalRecommendations(id);
+                return Ok(userRecommendations);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
