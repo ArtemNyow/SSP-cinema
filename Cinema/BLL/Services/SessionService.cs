@@ -53,6 +53,11 @@ namespace BLL.Services
                     (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle, StringComparison.InvariantCultureIgnoreCase)));
         }
 
+        public IQueryable<Session> GetActiveSessions()
+        {
+            return _sessionRepository.GetActiveSessions();
+        }
+
         public Task<Session> GetByIdAsync(int id)
         {
             return _sessionRepository.GetAsync(id);
