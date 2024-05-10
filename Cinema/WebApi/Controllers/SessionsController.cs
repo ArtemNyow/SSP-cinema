@@ -40,7 +40,7 @@ namespace WebApi.Controllers
                     MinPrice = minPrice ?? 0,
                     MaxPrice = maxPrice ?? int.MaxValue,
                     HallNumber = hallNumber,
-                    MovieGenres = movieGenres,
+                    MovieGenres = movieGenres ?? Array.Empty<string>(),
                     MovieTitle = movieTitle,
                 };
 
