@@ -10,9 +10,4 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
     {
         
     }
-
-    public IQueryable<Session> GetActiveSessions()
-    {
-        return _dbSet.AsQueryable().Where(e => e.Status == SessionStatus.Active);
-    }
 }

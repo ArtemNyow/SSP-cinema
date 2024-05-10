@@ -1,5 +1,6 @@
 ﻿using BLL.Interfaces;
 using DAL.Interfaces;
+using Domain.Enums;
 using Domain.Models;
 
 namespace BLL.Services
@@ -51,6 +52,12 @@ namespace BLL.Services
                     (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
                     (filter.MovieGenres.Length == 0 || s.Movie.Genres.Any(g => filter.MovieGenres.Contains(g.Name))) &&
                     (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle, StringComparison.InvariantCultureIgnoreCase)));
+        }
+
+        public IQueryable<Session> GetActiveSessions()
+        {
+            return _sessionRepository.GetAll("Movie", "Hall")
+                .Where(e => e.Status == SessionStatus.Active);
         }
 
         public Task<Session> GetByIdAsync(int id)
