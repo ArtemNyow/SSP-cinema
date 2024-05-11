@@ -61,9 +61,9 @@ namespace BLL.Services
                 .Where(e => e.Status == SessionStatus.Active);
         }
 
-        public Task<Session> GetByIdAsync(int id)
+        public async Task<Session> GetByIdAsync(int id)
         {
-            return _sessionRepository.GetAsync(id);
+            return await _sessionRepository.GetAsync(id);
         }
 
         public async Task<Session> UpdateAsync(Session model)

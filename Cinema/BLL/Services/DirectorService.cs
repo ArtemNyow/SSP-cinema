@@ -36,9 +36,9 @@ namespace BLL.Services
             return _directorRepository.GetAll();
         }
 
-        public Task<Director> GetByIdAsync(int id)
+        public async Task<Director> GetByIdAsync(int id)
         {
-            return _directorRepository.GetAsync(id);
+            return await _directorRepository.GetAsync(id);
         }
 
         public async Task<Director> UpdateAsync(Director model)

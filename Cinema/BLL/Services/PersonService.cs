@@ -1,6 +1,7 @@
 ﻿using BLL.Interfaces;
 using DAL.Interfaces;
 using Domain.Models;
+using System.Diagnostics.Metrics;
 
 namespace BLL.Services
 {
@@ -36,9 +37,9 @@ namespace BLL.Services
             return _personRepository.GetAll();
         }
 
-        public Task<Person> GetByIdAsync(int id)
+        public async Task<Person> GetByIdAsync(int id)
         {
-            return _personRepository.GetAsync(id);
+            return await _personRepository.GetAsync(id);
         }
 
         public async Task<Person> UpdateAsync(Person model)

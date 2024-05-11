@@ -36,9 +36,9 @@ namespace BLL.Services
             return _genreRepository.GetAll();
         }
 
-        public Task<Genre> GetByIdAsync(int id)
+        public async Task<Genre> GetByIdAsync(int id)
         {
-            return _genreRepository.GetAsync(id);
+            return await _genreRepository.GetAsync(id);
         }
 
         public async Task<Genre> UpdateAsync(Genre model)

@@ -36,9 +36,9 @@ namespace BLL.Services
             return _movieRepository.GetAll();
         }
 
-        public Task<Movie> GetByIdAsync(int id)
+        public async Task<Movie> GetByIdAsync(int id)
         {
-            return _movieRepository.GetAsync(id);
+            return await _movieRepository.GetAsync(id);
         }
 
         public async Task<Movie> UpdateAsync(Movie model)
