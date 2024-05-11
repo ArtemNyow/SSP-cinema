@@ -56,7 +56,8 @@ namespace BLL.Services
 
         public IQueryable<Session> GetActiveSessions()
         {
-            return _sessionRepository.GetAll("Movie", "Hall")
+            return _sessionRepository
+                .GetAll("Movie", "Hall")
                 .Where(e => e.Status == SessionStatus.Active);
         }
 
