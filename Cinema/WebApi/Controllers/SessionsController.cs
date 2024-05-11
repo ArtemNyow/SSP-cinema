@@ -112,6 +112,20 @@ namespace WebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        
+        // GET: api/sessions/active
+        [HttpGet("active")]
+        public async Task<ActionResult<List<Session>>> GetActiveSessions()
+        {
+            try
+            {
+                var activeSessions = await _sessionService.GetActiveSessions().ToListAsync();
+                return Ok(activeSessions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
