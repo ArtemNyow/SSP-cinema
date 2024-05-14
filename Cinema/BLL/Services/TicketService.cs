@@ -36,9 +36,9 @@ namespace BLL.Services
             return _ticketRepository.GetAll();
         }
 
-        public Task<Ticket> GetByIdAsync(int id)
+        public async Task<Ticket> GetByIdAsync(int id)
         {
-            return _ticketRepository.GetAsync(id);
+            return await _ticketRepository.GetAsync(id);
         }
 
         public async Task<Ticket> UpdateAsync(Ticket model)

@@ -36,9 +36,9 @@ namespace BLL.Services
             return _actorRepository.GetAll();
         }
 
-        public Task<Actor> GetByIdAsync(int id)
+        public async Task<Actor> GetByIdAsync(int id)
         {
-            return _actorRepository.GetAsync(id);
+            return await _actorRepository.GetAsync(id);
         }
 
         public async Task<Actor> UpdateAsync(Actor model)

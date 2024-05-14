@@ -36,9 +36,9 @@ namespace BLL.Services
             return _hallRepository.GetAll();
         }
 
-        public Task<Hall> GetByIdAsync(int id)
+        public async Task<Hall> GetByIdAsync(int id)
         {
-            return _hallRepository.GetAsync(id);
+            return await _hallRepository.GetAsync(id);
         }
 
         public async Task<Hall> UpdateAsync(Hall model)

@@ -47,9 +47,9 @@ namespace BLL.Services
             return _userRepository.GetAll();
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            return _userRepository.GetAsync(id);
+            return await _userRepository.GetAsync(id);
         }
 
         public async Task<User> UpdateAsync(User model)
