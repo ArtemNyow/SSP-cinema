@@ -1,5 +1,4 @@
 ﻿using BLL.Interfaces;
-using BLL.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,21 +7,21 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DirectorController : ControllerBase
+    public class MoviesController : ControllerBase
     {
-        private readonly IDirectorService _directorService;
-        public DirectorController(IDirectorService directorService)
+        private readonly IMovieService _movieService;
+        public MoviesController(IMovieService movieService)
         {
-            _directorService = directorService;
+            _movieService = movieService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Director>>> GetDirectors()
+        public async Task<ActionResult<List<Movie>>> Get()
         {
             try
             {
-                var persons = await _directorService.GetAll().ToListAsync();
-                return Ok(persons);
+                var movies = await _movieService.GetAll().ToListAsync();
+                return Ok(movies);
             }
             catch (Exception ex)
             {
@@ -31,12 +30,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Director>> AddDirector([FromBody] Director director)
+        public async Task<ActionResult<Movie>> Add([FromBody] Movie movie)
         {
             try
             {
-                var addedDirector = await _directorService.AddAsync (director);
-                return Ok(addedDirector);
+                var addedMovie = await _movieService.AddAsync(movie);
+                return Ok(addedMovie);
             }
             catch (Exception ex)
             {
@@ -45,12 +44,12 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Director>> DeleteDirector (int id)
+        public async Task<ActionResult<Movie>> Delete(int id)
         {
             try
             {
-                var deletedDirector = await _directorService.DeleteAsync(id);
-                return Ok(deletedDirector);
+                var deletedMovie = await _movieService.DeleteAsync(id);
+                return Ok(deletedMovie);
             }
             catch (Exception ex)
             {
@@ -59,12 +58,12 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Director>> GetDirectorById(int id)
+        public async Task<ActionResult<Movie>> GetById(int id)
         {
             try
             {
-                var getDirectorById = await _directorService.GetByIdAsync(id);
-                return Ok(getDirectorById);
+                var getMovieById = await _movieService.GetByIdAsync(id);
+                return Ok(getMovieById);
             }
             catch (Exception ex)
             {
@@ -73,12 +72,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Director>> UpdateDirector([FromBody] Director director)
+        public async Task<ActionResult<Movie>> Update([FromBody] Movie movie)
         {
             try
             {
-                var updatedDirector = await _directorService.UpdateAsync(director);
-                return Ok(updatedDirector);
+                var updatedMovie = await _movieService.UpdateAsync(movie);
+                return Ok(updatedMovie);
             }
             catch (Exception ex)
             {

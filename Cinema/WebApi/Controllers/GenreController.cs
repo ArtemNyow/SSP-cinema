@@ -9,16 +9,16 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HallGenre : ControllerBase
+    public class GenresController : ControllerBase
     {
         private readonly IGenreService _genreService;
-        public HallGenre(IGenreService genreService)
+        public GenresController(IGenreService genreService)
         {
             _genreService = genreService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Genre>>> GetGenders()
+        public async Task<ActionResult<List<Genre>>> Get()
         {
             try
             {
@@ -32,7 +32,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Genre>> AddGender([FromBody] Genre genre)
+        public async Task<ActionResult<Genre>> Add([FromBody] Genre genre)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Genre>> DeleteGenre(int id)
+        public async Task<ActionResult<Genre>> Delete(int id)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Genre>> GetGenreById(int id)
+        public async Task<ActionResult<Genre>> GetById(int id)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Genre>> UpdateHall([FromBody] Genre genre)
+        public async Task<ActionResult<Genre>> Update([FromBody] Genre genre)
         {
             try
             {
