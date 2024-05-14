@@ -90,7 +90,7 @@ namespace BLL.Services
 
             var sessions = recommendationMovies
                 .SelectMany(movie => movie.Sessions
-                .Where(s => s.Status == SessionStatus.Active))
+                    .Where(s => s.Status == SessionStatus.Active))
                 .ToList();
 
             return sessions;
