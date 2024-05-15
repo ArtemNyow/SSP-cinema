@@ -1,29 +1,27 @@
 ﻿using BLL.Interfaces;
-using BLL.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HallController : ControllerBase
+    public class PersonsController : ControllerBase
     {
-        private readonly IHallService _hallService;
-        public HallController(IHallService hallService)
+        private readonly IPersonService _personService;
+        public PersonsController(IPersonService personService)
         {
-            _hallService = hallService;
+            _personService = personService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Hall>>> GetHalls()
+        public async Task<ActionResult<List<Person>>> Get()
         {
             try
             {
-                var halls = await _hallService.GetAll().ToListAsync();
-                return Ok(halls);
+                var persons = await _personService.GetAll().ToListAsync();
+                return Ok(persons);
             }
             catch (Exception ex)
             {
@@ -32,12 +30,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Hall>> AddHall([FromBody] Hall hall)
+        public async Task<ActionResult<Person>> Add([FromBody] Person person)
         {
             try
             {
-                var addedHall = await _hallService.AddAsync(hall);
-                return Ok(addedHall);
+                var addedPerson = await _personService.AddAsync(person);
+                return Ok(addedPerson);
             }
             catch (Exception ex)
             {
@@ -46,12 +44,12 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Hall>> DeleteHall(int id)
+        public async Task<ActionResult<Person>> Delete(int id)
         {
             try
             {
-                var deletedHall = await _hallService.DeleteAsync(id);
-                return Ok(deletedHall);
+                var deletedPerson = await _personService.DeleteAsync(id);
+                return Ok(deletedPerson);
             }
             catch (Exception ex)
             {
@@ -60,12 +58,12 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hall>> GetHallById(int id)
+        public async Task<ActionResult<Person>> GetById(int id)
         {
             try
             {
-                var getHallById = await _hallService.GetByIdAsync(id);
-                return Ok(getHallById);
+                var getPersonById = await _personService.GetByIdAsync(id);
+                return Ok(getPersonById);
             }
             catch (Exception ex)
             {
@@ -74,12 +72,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Hall>> UpdateHall([FromBody] Hall hall)
+        public async Task<ActionResult<Person>> Update([FromBody] Person person)
         {
             try
             {
-                var updatedHall = await _hallService.UpdateAsync(hall);
-                return Ok(updatedHall);
+                var updatedPerson = await _personService.UpdateAsync(person);
+                return Ok(updatedPerson);
             }
             catch (Exception ex)
             {

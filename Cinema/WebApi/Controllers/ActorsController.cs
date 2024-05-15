@@ -1,24 +1,22 @@
 ﻿using BLL.Interfaces;
-using BLL.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ActorController : ControllerBase
+    public class ActorsController : ControllerBase
     {
         private readonly IActorService _actorService;
-        public ActorController(IActorService actorService)
+        public ActorsController(IActorService actorService)
         {
             _actorService = actorService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Actor>>> GetActors()
+        public async Task<ActionResult<List<Actor>>> Get()
         {
             try
             {
@@ -32,7 +30,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Actor>> AddActor([FromBody] Actor actor)
+        public async Task<ActionResult<Actor>> Add([FromBody] Actor actor)
         {
             try
             {
@@ -46,7 +44,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Actor>> DeleteActor(int id)
+        public async Task<ActionResult<Actor>> Delete(int id)
         {
             try
             {
@@ -60,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Actor>> GetActorById(int id)
+        public async Task<ActionResult<Actor>> GetById(int id)
         {
             try
             {
@@ -74,7 +72,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Actor>> UpdatePerson([FromBody] Actor actor)
+        public async Task<ActionResult<Actor>> Update([FromBody] Actor actor)
         {
             try
             {

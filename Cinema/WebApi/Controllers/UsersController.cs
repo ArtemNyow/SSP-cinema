@@ -1,5 +1,4 @@
 ﻿using BLL.Interfaces;
-using BLL.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,16 +7,16 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetUsers()
+        public async Task<ActionResult<List<User>>> Get()
         {
             try
             {
@@ -31,7 +30,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<User>> AddUser([FromBody] User user)
+        public async Task<ActionResult<User>> Add([FromBody] User user)
         {
             try
             {
@@ -45,7 +44,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        public async Task<ActionResult<User>> Delete(int id)
         {
             try
             {
@@ -59,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<User>> GetById(int id)
         {
             try
             {
@@ -73,7 +72,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
+        public async Task<ActionResult<User>> Update([FromBody] User user)
         {
             try
             {

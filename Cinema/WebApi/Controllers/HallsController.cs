@@ -3,26 +3,27 @@ using BLL.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MovieController : ControllerBase
+    public class HallsController : ControllerBase
     {
-        private readonly IMovieService _movieService;
-        public MovieController(IMovieService movieService)
+        private readonly IHallService _hallService;
+        public HallsController(IHallService hallService)
         {
-            _movieService = movieService;
+            _hallService = hallService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Movie>>> GetMovies()
+        public async Task<ActionResult<List<Hall>>> Get()
         {
             try
             {
-                var movies = await _movieService.GetAll().ToListAsync();
-                return Ok(movies);
+                var halls = await _hallService.GetAll().ToListAsync();
+                return Ok(halls);
             }
             catch (Exception ex)
             {
@@ -31,12 +32,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Movie>> AddMovie([FromBody] Movie movie)
+        public async Task<ActionResult<Hall>> Add([FromBody] Hall hall)
         {
             try
             {
-                var addedMovie = await _movieService.AddAsync(movie);
-                return Ok(addedMovie);
+                var addedHall = await _hallService.AddAsync(hall);
+                return Ok(addedHall);
             }
             catch (Exception ex)
             {
@@ -45,12 +46,12 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Movie>> DeleteMovie(int id)
+        public async Task<ActionResult<Hall>> Delete(int id)
         {
             try
             {
-                var deletedMovie = await _movieService.DeleteAsync(id);
-                return Ok(deletedMovie);
+                var deletedHall = await _hallService.DeleteAsync(id);
+                return Ok(deletedHall);
             }
             catch (Exception ex)
             {
@@ -59,12 +60,12 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovieById(int id)
+        public async Task<ActionResult<Hall>> GetById(int id)
         {
             try
             {
-                var getMovieById = await _movieService.GetByIdAsync(id);
-                return Ok(getMovieById);
+                var getHallById = await _hallService.GetByIdAsync(id);
+                return Ok(getHallById);
             }
             catch (Exception ex)
             {
@@ -73,12 +74,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Movie>> UpdateMovie([FromBody] Movie movie)
+        public async Task<ActionResult<Hall>> Update([FromBody] Hall hall)
         {
             try
             {
-                var updatedMovie = await _movieService.UpdateAsync(movie);
-                return Ok(updatedMovie);
+                var updatedHall = await _hallService.UpdateAsync(hall);
+                return Ok(updatedHall);
             }
             catch (Exception ex)
             {
