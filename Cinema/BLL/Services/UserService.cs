@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using System.Security.Authentication;
+using BLL.Interfaces;
 using DAL.Interfaces;
 using Domain.Enums;
 using Domain.Models;
@@ -11,15 +12,18 @@ namespace BLL.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHashService _passwordHashService;
         private readonly IMovieRepository _movieRepository;
+        private readonly IAuthService _authService;
 
         public UserService(
             IUserRepository userRepository,
             IPasswordHashService passwordHashService,
-            IMovieRepository movieRepository)
+            IMovieRepository movieRepository,
+            IAuthService authService)
         {
             _userRepository = userRepository;
             _passwordHashService = passwordHashService;
             _movieRepository = movieRepository;
+            _authService = authService;
         }
 
         public async Task<User> AddAsync(User model)
@@ -96,6 +100,19 @@ namespace BLL.Services
             return sessions;
         }
 
+        public async Task<string> Login(string email, string password)
+        {
+            var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == email);
+
+            if (user is null || !_passwordHashService.Verify(user.Password, password))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            var token = _authService.GenerateJwt(user);
+            return token;
+        }
+
         protected void ValidateUser(User user)
         {
             ArgumentNullException.ThrowIfNull(user);
@@ -109,5 +126,6 @@ namespace BLL.Services
                 throw new ArgumentException("User password must be valid.", nameof(user));
             }
         }
+        
     }
 }
