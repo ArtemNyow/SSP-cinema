@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using System.Security.Authentication;
+using BLL.Interfaces;
 using DAL.Interfaces;
 using Domain.Enums;
 using Domain.Models;
@@ -11,15 +12,18 @@ namespace BLL.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHashService _passwordHashService;
         private readonly IMovieRepository _movieRepository;
+        private readonly IAuthService _authService;
 
         public UserService(
             IUserRepository userRepository,
             IPasswordHashService passwordHashService,
-            IMovieRepository movieRepository)
+            IMovieRepository movieRepository,
+            IAuthService authService)
         {
             _userRepository = userRepository;
             _passwordHashService = passwordHashService;
             _movieRepository = movieRepository;
+            _authService = authService;
         }
 
         public async Task<User> AddAsync(User model)
@@ -77,16 +81,15 @@ namespace BLL.Services
             var userMovies = from Ticket in user.Tickets
                              select Ticket.Session.Movie;
 
-            var genres = userMovies.SelectMany(m => m.Genres);
-            var ageRatings = userMovies.Select(m => m.AgeRating);
+            var genres = userMovies.SelectMany(m => m.Genres).Distinct();
+            var ageRatings = userMovies.Select(m => m.AgeRating).Distinct();
 
-            var allMovies = await _movieRepository.GetAll().ToListAsync();
+            var allMovies = await _movieRepository.GetAll("Genres", "Sessions").ToListAsync();
 
             var recommendationMovies = allMovies
                 .Where(movie => !userMovies.Any(m => m.Title == movie.Title))
                 .Where(movie => movie.Genres.Any(g => genres.Any(ge => ge.Name == g.Name)))
-                .Where(movie => ageRatings.Any(rating => Math.Abs(movie.AgeRating - rating) <= 3))
-                .ToList();
+                .Where(movie => ageRatings.Any(rating => Math.Abs(movie.AgeRating - rating) <= 3));
 
             var sessions = recommendationMovies
                 .SelectMany(movie => movie.Sessions
@@ -94,6 +97,19 @@ namespace BLL.Services
                 .ToList();
 
             return sessions;
+        }
+
+        public async Task<string> Login(string email, string password)
+        {
+            var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == email);
+
+            if (user is null || !_passwordHashService.Verify(password, user.Password))
+            {
+                throw new InvalidCredentialException();
+            }
+
+            var token = _authService.GenerateJwt(user);
+            return token;
         }
 
         protected void ValidateUser(User user)
@@ -109,5 +125,6 @@ namespace BLL.Services
                 throw new ArgumentException("User password must be valid.", nameof(user));
             }
         }
+        
     }
 }

@@ -6,5 +6,6 @@ namespace BLL.Interfaces
     {
         Task<List<Ticket>> GetTicketsByUserId(int id);
         Task<List<Session>> GetPersonalRecommendations(int id);
+        Task<string> Login(string email, string password);
     }
 }
