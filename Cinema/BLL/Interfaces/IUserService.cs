@@ -4,6 +4,7 @@ namespace BLL.Interfaces
 {
     public interface IUserService : ICrud<User>
     {
-
+        Task<List<Ticket>> GetTicketsByUserId(int id);
+        Task<List<Session>> GetPersonalRecommendations(int id);
     }
 }
