@@ -81,16 +81,15 @@ namespace BLL.Services
             var userMovies = from Ticket in user.Tickets
                              select Ticket.Session.Movie;
 
-            var genres = userMovies.SelectMany(m => m.Genres);
-            var ageRatings = userMovies.Select(m => m.AgeRating);
+            var genres = userMovies.SelectMany(m => m.Genres).Distinct();
+            var ageRatings = userMovies.Select(m => m.AgeRating).Distinct();
 
-            var allMovies = await _movieRepository.GetAll().ToListAsync();
+            var allMovies = await _movieRepository.GetAll("Genres", "Sessions").ToListAsync();
 
             var recommendationMovies = allMovies
                 .Where(movie => !userMovies.Any(m => m.Title == movie.Title))
                 .Where(movie => movie.Genres.Any(g => genres.Any(ge => ge.Name == g.Name)))
-                .Where(movie => ageRatings.Any(rating => Math.Abs(movie.AgeRating - rating) <= 3))
-                .ToList();
+                .Where(movie => ageRatings.Any(rating => Math.Abs(movie.AgeRating - rating) <= 3));
 
             var sessions = recommendationMovies
                 .SelectMany(movie => movie.Sessions
