@@ -259,7 +259,7 @@ namespace DAL
                     Email = "jane.smith@email.com",
                     Role = UserRole.User,
                     // password123
-                    Password =             "2CF4EB5BCE56C6A7464A6B52708A5E1947E1B659DFAE8F7279AC3E5ED6C52F1DAD4A2C8E1AED48F70E4643DFDEBB5B8DD203B71D127BF615D49D43DA496A6627:92277885A363FF7D29973B7FF84B7F33B3FF8D5AB61895E3A45DAB6C3C23A90C96F2984C36B91C8BF9CFBF5F2D14A9011D9A6351B6441C0B694676CEC2438EF:50000:SHA512",
+                    Password = "2CF4EB5BCE56C6A7464A6B52708A5E1947E1B659DFAE8F7279AC3E5ED6C52F1DAD4A2C8E1AED48F70E4643DFDEBB5B8DD203B71D127BF615D49D43DA496A6627:92277885A363FF7D29973B7FF84B7F33B3FF8D5AB61895E3A45DAB6C3C23A90C96F2984C36B91C8BF9CFBF5F2D14A9011D9A6351B6441C0B694676CEC2438EF:50000:SHA512",
                 },
                 new User
                 {
@@ -267,7 +267,7 @@ namespace DAL
                     Email = "michael.johnson@email.com",
                     Role = UserRole.User,
                     // pass1234
-                    Password =             "514CADBB8E2055F1935A57E533BB8AC08F575F292FA0CF730DEBB3B046A6B0B7F2B11A72E9F2B469EF50AD5E6C5D9E049C8BBB5A4D07981F0DC5F0C65EC1D1E4:60F855C42E8C6A7E76E7A6D63D1B13C4C13E6A21E79DEBB7B91D7E1FCA0DD12E45DE5A19AB0F3E2C7619DEA1D8B9D21A3182043C40B5F478C5940DEE485207E:50000:SHA512",
+                    Password = "514CADBB8E2055F1935A57E533BB8AC08F575F292FA0CF730DEBB3B046A6B0B7F2B11A72E9F2B469EF50AD5E6C5D9E049C8BBB5A4D07981F0DC5F0C65EC1D1E4:60F855C42E8C6A7E76E7A6D63D1B13C4C13E6A21E79DEBB7B91D7E1FCA0DD12E45DE5A19AB0F3E2C7619DEA1D8B9D21A3182043C40B5F478C5940DEE485207E:50000:SHA512",
                 },
                 new User
                 {
@@ -275,7 +275,7 @@ namespace DAL
                     Email = "emma.davis@email.com",
                     Role = UserRole.User,
                     // securepassword
-                    Password =             "B1F8DE938E9B2FFD935E164E7F7C08B9F4909CE2DC0A5D92B61775B73322F76EE06F9735F03E77C08D367C9FC87DA3DEA0EAC88A1AD31B7C6D0A00EB05586973:CD11A9FBB35FB97049D86997F41B4042F7611B1184B20876A9F97961B4513B7F3EC10B27DE3D1682C2E596FCE4C9FED196CB5F454BBC79D8BC9D617E7D4B02D:50000:SHA512",
+                    Password = "B1F8DE938E9B2FFD935E164E7F7C08B9F4909CE2DC0A5D92B61775B73322F76EE06F9735F03E77C08D367C9FC87DA3DEA0EAC88A1AD31B7C6D0A00EB05586973:CD11A9FBB35FB97049D86997F41B4042F7611B1184B20876A9F97961B4513B7F3EC10B27DE3D1682C2E596FCE4C9FED196CB5F454BBC79D8BC9D617E7D4B02D:50000:SHA512",
                 }
 
             };
@@ -471,7 +471,7 @@ namespace DAL
                 // Престиж
                 new Genre
                 {
-                    Name = "Наукова фантастика",
+                    Name = "Науково-фантастичний",
                 },
                 // Матриця
                 new Genre
@@ -502,7 +502,7 @@ namespace DAL
                 // Інтерстеллар
                 new Genre
                 {
-                    Name = "Науково-фантастичний",
+                    Name = "Пригоди",
                 },
             };
 
@@ -585,7 +585,7 @@ namespace DAL
                     {
                         context.Genres.Single(g => g.Name == "Драма"),
                         context.Genres.Single(g => g.Name == "Фільм-таємниця"),
-                        context.Genres.Single(g => g.Name == "Наукова фантастика"),
+                        context.Genres.Single(g => g.Name == "Науково-фантастичний"),
                     },
                     AgeRating = 12,
                     Rating = 8.5,
@@ -651,9 +651,9 @@ namespace DAL
                     Title = "Джокер",
                     Actors = new List<Actor>
                     {
-                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Хоакін" &&a.Person.LastName == "Фенікс"),
-                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Роберт" &&a.Person.LastName == "Де Ніро"),
-                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Зазі" &&a.Person.LastName == "Бітц"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Хоакін" && a.Person.LastName == "Фенікс"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Роберт" && a.Person.LastName == "Де Ніро"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Зазі" && a.Person.LastName == "Бітц"),
                     },
                     Directors = new List<Director>
                     {
@@ -670,6 +670,61 @@ namespace DAL
                     ReleaseDate = new DateTime(2019, 10, 4),
                     Trailer = "https://www.youtube.com/watch?v=zAGVQLHvwOY",
                 },
+                // Інтерстеллар
+                new Movie
+                {
+                    Title = "Інтерстеллар",
+                    Actors = new List<Actor>
+                    {
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Меттью" && a.Person.LastName == "МакКонахі"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Енн" && a.Person.LastName == "Гетеуей"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Джессіка" && a.Person.LastName == "Честейн"),
+                    },
+                    Directors = new List<Director>
+                    {
+                        context.Directors.Include(a => a.Person).Single(a => a.Person.FirstName == "Крістофер" && a.Person.LastName == "Нолан"),
+                    },
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Художній"),
+                        context.Genres.Single(g => g.Name == "Науково-фантастичний"),
+                        context.Genres.Single(g => g.Name == "Пригоди"),
+                    },
+                    AgeRating = 12,
+                    Rating = 8.6,
+                    Description = "Земля випробовується глобальними катастрофами, і команда дослідників вирушає у космос, щоб знайти нове місце для  життя людей.",
+                    Duration = 169,
+                    ReleaseDate = new DateTime(2014, 11, 7),
+                    Trailer = "https://youtu.be/0vxOhd4qlnA",
+                },
+                // Шоу Трумана
+                new Movie
+                {
+                    Title = "Шоу Трумана",
+                    Actors = new List<Actor>
+                    {
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Джим" && a.Person.LastName == "Керрі"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Лора" && a.Person.LastName == "Лінні"),
+                        context.Actors.Include(a => a.Person).Single(a => a.Person.FirstName == "Ед" && a.Person.LastName == "Харріс"),
+                    },
+                    Directors = new List<Director>
+                    {
+                        context.Directors.Include(a => a.Person).Single(a => a.Person.FirstName == "Пітер" && a.Person.LastName == "Вір"),
+                    },
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Художній"),
+                        context.Genres.Single(g => g.Name == "Драма"),
+                        context.Genres.Single(g => g.Name == "Науково-фантастичний"),
+                    },
+                    AgeRating = 12,
+                    Rating = 8.1,
+                    Description = "Життя чоловіка, яке повністю транслюється у прямому ефірі національного телеканалу, виявляється справжнім лицем американської медіа-культури.",
+                    Duration = 103,
+                    ReleaseDate = new DateTime(1998, 6, 5),
+                    Trailer = "https://youtu.be/YKdewAWRRGI",
+                },
+
             };
 
             foreach (var movie in movies)
@@ -781,7 +836,7 @@ namespace DAL
                 new Session
                 {
                     HallID = context.Halls.Single(h => h.Number == 4).ID,
-                    MovieID = context.Movies.Single(m => m.Title == "Форрест      Гамп").ID,
+                    MovieID = context.Movies.Single(m => m.Title == "Форрест Гамп").ID,
                     DateTime = new DateTime(2024, 5, 25, 15, 45, 0),
                     Status = SessionStatus.Active,
                     TicketPrice = 200,
@@ -790,7 +845,7 @@ namespace DAL
                 new Session
                 {
                     HallID = context.Halls.Single(h => h.Number == 5).ID,
-                    MovieID = context.Movies.Single(m => m.Title == "Побачення зі        сторони      третьої").ID,
+                    MovieID = context.Movies.Single(m => m.Title == "Побачення зі сторони третьої").ID,
                     DateTime = new DateTime(2024, 5, 28, 17, 30, 0),
                     Status = SessionStatus.Active,
                     TicketPrice = 180,
@@ -799,7 +854,7 @@ namespace DAL
                 new Session
                 {
                     HallID = context.Halls.Single(h => h.Number == 6).ID,
-                    MovieID = context.Movies.Single(m => m.Title == "Шоу     Трумана").ID,
+                    MovieID = context.Movies.Single(m => m.Title == "Шоу Трумана").ID,
                     DateTime = new DateTime(2024, 5, 22, 18, 15, 0),
                     Status = SessionStatus.Active,
                     TicketPrice = 210,
@@ -808,7 +863,7 @@ namespace DAL
                 new Session
                 {
                     HallID = context.Halls.Single(h => h.Number == 6).ID,
-                    MovieID = context.Movies.Single(m => m.Title ==      "Інтерстеллар").ID,
+                    MovieID = context.Movies.Single(m => m.Title == "Інтерстеллар").ID,
                     DateTime = new DateTime(2024, 5, 30, 20, 0, 0),
                     Status = SessionStatus.Active,
                     TicketPrice = 240,
