@@ -113,5 +113,19 @@ namespace WebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] Login login)
+        {
+            try
+            {
+                var jwtToken = await _userService.Login(login.Email, login.Password);
+                return Ok(jwtToken);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

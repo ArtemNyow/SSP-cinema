@@ -1,6 +1,9 @@
-﻿using BLL.Interfaces;
+﻿using System.Text;
+using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BLL
 {
@@ -19,6 +22,7 @@ namespace BLL
             services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<IPasswordHashService, PasswordHashService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }
