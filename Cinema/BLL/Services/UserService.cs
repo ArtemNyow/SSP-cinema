@@ -104,7 +104,7 @@ namespace BLL.Services
         {
             var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == email);
 
-            if (user is null || !_passwordHashService.Verify(user.Password, password))
+            if (user is null || !_passwordHashService.Verify(password, user.Password))
             {
                 throw new InvalidCredentialException();
             }
