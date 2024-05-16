@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Models;
 
@@ -13,42 +15,46 @@ namespace BLL.Services
             _genreRepository = GenreRepository;
         }
 
-        public async Task<Genre> AddAsync(Genre model)
+        public async Task<GenreDto> AddAsync(GenreDto model)
         {
-            ValidateGenre(model);
+            Genre genre = model.ToEntity();
+            ValidateGenre(genre);
 
-            Genre entity = await _genreRepository.AddAsync(model);
+            Genre entity = await _genreRepository.AddAsync(genre);
             await _genreRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<Genre> DeleteAsync(int id)
+        public async Task<GenreDto> DeleteAsync(int id)
         {
             Genre entity = await _genreRepository.DeleteAsync(id);
             await _genreRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public IQueryable<Genre> GetAll()
+        public IQueryable<GenreDto> GetAll()
         {
-            return _genreRepository.GetAll();
+            return _genreRepository
+                .GetAll()
+                .Select(h => h.ToDto());
         }
 
-        public async Task<Genre> GetByIdAsync(int id)
+        public async Task<GenreDto> GetByIdAsync(int id)
         {
-            return await _genreRepository.GetAsync(id);
+            return (await _genreRepository.GetAsync(id)).ToDto();
         }
 
-        public async Task<Genre> UpdateAsync(Genre model)
+        public async Task<GenreDto> UpdateAsync(GenreDto model)
         {
-            ValidateGenre(model);
+            Genre genre = model.ToEntity();
+            ValidateGenre(genre);
 
-            Genre entity = _genreRepository.Update(model);
+            Genre entity = _genreRepository.Update(genre);
             await _genreRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
         protected void ValidateGenre(Genre genre)

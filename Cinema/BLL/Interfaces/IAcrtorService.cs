@@ -1,8 +1,8 @@
-﻿using Domain.Models;
+﻿using BLL.DTOs;
 
 namespace BLL.Interfaces
 {
-    public interface IActorService : ICrud<Actor>
+    public interface IActorService : ICrud<ActorDto>
     {
 
     }

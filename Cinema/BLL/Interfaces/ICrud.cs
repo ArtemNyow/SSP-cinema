@@ -2,7 +2,7 @@
 
 namespace BLL.Interfaces
 {
-    public interface ICrud<T> where T : BaseEntity
+    public interface ICrud<T>
     {
         IQueryable<T> GetAll();
         Task<T> GetByIdAsync(int id);

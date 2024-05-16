@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Models;
 
@@ -13,42 +15,46 @@ namespace BLL.Services
             _directorRepository = DirectorRepository;
         }
 
-        public async Task<Director> AddAsync(Director model)
+        public async Task<DirectorDto> AddAsync(DirectorDto model)
         {
-            ValidateDirector(model);
+            Director director = model.ToEntity();
+            ValidateDirector(director);
 
-            Director entity = await _directorRepository.AddAsync(model);
+            Director entity = await _directorRepository.AddAsync(director);
             await _directorRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<Director> DeleteAsync(int id)
+        public async Task<DirectorDto> DeleteAsync(int id)
         {
             Director entity = await _directorRepository.DeleteAsync(id);
             await _directorRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public IQueryable<Director> GetAll()
+        public IQueryable<DirectorDto> GetAll()
         {
-            return _directorRepository.GetAll();
+            return _directorRepository
+                .GetAll("Person")
+                .Select(d => d.ToDto());
         }
 
-        public async Task<Director> GetByIdAsync(int id)
+        public async Task<DirectorDto> GetByIdAsync(int id)
         {
-            return await _directorRepository.GetAsync(id);
+            return (await _directorRepository.GetAsync(id, "Person")).ToDto();
         }
 
-        public async Task<Director> UpdateAsync(Director model)
+        public async Task<DirectorDto> UpdateAsync(DirectorDto model)
         {
-            ValidateDirector(model);
+            Director director = model.ToEntity();
+            ValidateDirector(director);
 
-            Director entity = _directorRepository.Update(model);
+            Director entity = _directorRepository.Update(director);
             await _directorRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
         protected void ValidateDirector(Director director)

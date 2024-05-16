@@ -1,8 +1,8 @@
-﻿using Domain.Models;
+﻿using BLL.DTOs;
 
 namespace BLL.Interfaces
 {
-    public interface IHallService : ICrud<Hall>
+    public interface IHallService : ICrud<HallDto>
     {
 
     }

@@ -1,8 +1,8 @@
-﻿using Domain.Models;
+﻿using BLL.DTOs;
 
 namespace BLL.Interfaces
 {
-    public interface IDirectorService : ICrud<Director>
+    public interface IDirectorService : ICrud<DirectorDto>
     {
 
     }
