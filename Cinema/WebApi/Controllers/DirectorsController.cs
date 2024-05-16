@@ -1,5 +1,5 @@
-﻿using BLL.Interfaces;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Director>>> Get()
+        public async Task<ActionResult<List<DirectorDto>>> Get()
         {
             try
             {
@@ -29,8 +29,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Director>> Add([FromBody] Director director)
+        [HttpPost]
+        public async Task<ActionResult<DirectorDto>> Add([FromBody] DirectorDto director)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Director>> Delete(int id)
+        public async Task<ActionResult<DirectorDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Director>> GetById(int id)
+        public async Task<ActionResult<DirectorDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +71,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Director>> Update([FromBody] Director director)
+        [HttpPut]
+        public async Task<ActionResult<DirectorDto>> Update([FromBody] DirectorDto director)
         {
             try
             {

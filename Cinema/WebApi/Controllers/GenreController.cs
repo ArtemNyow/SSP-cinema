@@ -1,9 +1,7 @@
-﻿using BLL.Interfaces;
-using BLL.Services;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace WebApi.Controllers
 {
@@ -18,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Genre>>> Get()
+        public async Task<ActionResult<List<GenreDto>>> Get()
         {
             try
             {
@@ -31,8 +29,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Genre>> Add([FromBody] Genre genre)
+        [HttpPost]
+        public async Task<ActionResult<GenreDto>> Add([FromBody] GenreDto genre)
         {
             try
             {
@@ -46,7 +44,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Genre>> Delete(int id)
+        public async Task<ActionResult<GenreDto>> Delete(int id)
         {
             try
             {
@@ -60,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Genre>> GetById(int id)
+        public async Task<ActionResult<GenreDto>> GetById(int id)
         {
             try
             {
@@ -73,8 +71,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Genre>> Update([FromBody] Genre genre)
+        [HttpPut]
+        public async Task<ActionResult<GenreDto>> Update([FromBody] GenreDto genre)
         {
             try
             {

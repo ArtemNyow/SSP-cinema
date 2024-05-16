@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> Get()
+        public async Task<ActionResult<List<UserDto>>> Get()
         {
             try
             {
-                var users = await _userService.GetAll().ToListAsync();
+                var users = await _userService
+                    .GetAll()
+                    .ToListAsync();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -29,8 +32,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<User>> Add([FromBody] User user)
+        [HttpPost]
+        public async Task<ActionResult<User>> Add([FromBody] CreateUser user)
         {
             try
             {
@@ -44,7 +47,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> Delete(int id)
+        public async Task<ActionResult<UserDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +61,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetById(int id)
+        public async Task<ActionResult<UserDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +74,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> Update([FromBody] User user)
+        [HttpPut]
+        public async Task<ActionResult<UserDto>> Update([FromBody] UpdateUser user)
         {
             try
             {
@@ -86,7 +89,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}/tickets")]
-        public async Task<ActionResult<List<User>>> GetTicketbyUserId(int id)
+        public async Task<ActionResult<List<TicketDto>>> GetTicketbyUserId(int id)
         {
             try
             {
@@ -100,7 +103,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}/recommendations")]
-        public async Task<ActionResult<List<Session>>> GetRecommendations(int id)
+        public async Task<ActionResult<List<SessionDto>>> GetRecommendations(int id)
         {
             try
             {
