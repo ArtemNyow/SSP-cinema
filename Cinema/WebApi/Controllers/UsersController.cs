@@ -33,7 +33,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> Add([FromBody] CreateUser user)
+        public async Task<ActionResult<UserDto>> Add([FromBody] CreateUser user)
         {
             try
             {
