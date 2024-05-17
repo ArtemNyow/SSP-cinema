@@ -121,7 +121,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var jwtToken = await _userService.Login(login.Email, login.Password);
+                var jwtToken = await _userService.Login(login);
                 return Ok(jwtToken);
             }
             catch (Exception ex)

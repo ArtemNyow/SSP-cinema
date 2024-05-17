@@ -107,11 +107,11 @@ namespace BLL.Services
             return sessions;
         }
 
-        public async Task<string> Login(string email, string password)
+        public async Task<string> Login(Login login)
         {
-            var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == email);
+            var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == login.Email);
 
-            if (user is null || !_passwordHashService.Verify(password, user.Password))
+            if (user is null || !_passwordHashService.Verify(login.Password, user.Password))
             {
                 throw new InvalidCredentialException();
             }
