@@ -1,4 +1,5 @@
-﻿using System.Security.Authentication;
+﻿using System.Net;
+using System.Security.Authentication;
 using BLL.DTOs;
 using BLL.Interfaces;
 using BLL.Mappers;
@@ -12,17 +13,20 @@ namespace BLL.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPersonService _personService;
         private readonly IPasswordHashService _passwordHashService;
         private readonly IMovieRepository _movieRepository;
         private readonly IAuthService _authService;
 
         public UserService(
-            IUserRepository userRepository,
+            IUserRepository userRepository, 
+            IPersonService personService,
             IPasswordHashService passwordHashService,
             IMovieRepository movieRepository,
             IAuthService authService)
         {
             _userRepository = userRepository;
+            _personService = personService;
             _passwordHashService = passwordHashService;
             _movieRepository = movieRepository;
             _authService = authService;
@@ -120,6 +124,32 @@ namespace BLL.Services
             return token;
         }
 
+        public async Task Register(Register register)
+        {
+            var user = await _userRepository
+                .GetAll()
+                .FirstOrDefaultAsync(u => u.Email == register.Email);
+
+            if (user is not null)
+            {
+                throw new HttpException("Email already exists.", HttpStatusCode.BadRequest);
+            }
+
+            var person = await _personService.AddAsync(new Person
+            {
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+            });
+
+            await AddAsync(new CreateUser
+            {
+                PersonID = person.ID,
+                Email = register.Email,
+                Password = register.Password,
+                Role = UserRole.User,
+            });
+        }
+
         protected void ValidateUser(User user)
         {
             ArgumentNullException.ThrowIfNull(user);
@@ -131,16 +161,6 @@ namespace BLL.Services
             else if (string.IsNullOrWhiteSpace(user.Password))
             {
                 throw new ArgumentException("User password must be valid.", nameof(user));
-            }
-        }
-
-        protected void ValidateUserDto(UserDto user)
-        {
-            ArgumentNullException.ThrowIfNull(user);
-
-            if (string.IsNullOrWhiteSpace(user.Email))
-            {
-                throw new ArgumentException("User email must be valid.", nameof(user));
             }
         }
     }

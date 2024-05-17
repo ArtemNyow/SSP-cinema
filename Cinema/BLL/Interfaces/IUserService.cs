@@ -13,5 +13,6 @@ namespace BLL.Interfaces
         Task<List<TicketDto>> GetTicketsByUserId(int id);
         Task<List<SessionDto>> GetPersonalRecommendations(int id);
         Task<string> Login(Login login);
+        Task Register(Register register);
     }
 }

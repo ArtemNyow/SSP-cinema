@@ -129,5 +129,19 @@ namespace WebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPost(template: "register")]
+        public async Task<ActionResult<string>> Register([FromBody] Register register)
+        {
+            try
+            {
+                await _userService.Register(register);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
