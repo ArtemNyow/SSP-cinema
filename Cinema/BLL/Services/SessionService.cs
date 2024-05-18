@@ -4,16 +4,24 @@ using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Enums;
 using Domain.Models;
+using System.Net;
 
 namespace BLL.Services
 {
     public class SessionService : ISessionService
     {
         private readonly ISessionRepository _sessionRepository;
+        private readonly ITicketService _ticketService;
+        private readonly IUserService _userService;
 
-        public SessionService(ISessionRepository SessionRepository)
+        public SessionService(
+            ISessionRepository sessionRepository, 
+            ITicketService ticketService,
+            IUserService userService)
         {
-            _sessionRepository = SessionRepository;
+            _sessionRepository = sessionRepository;
+            _ticketService = ticketService;
+            _userService = userService;
         }
 
         public async Task<SessionDto> AddAsync(SessionDto model)
@@ -85,6 +93,47 @@ namespace BLL.Services
             await _sessionRepository.SaveAsync();
 
             return entity.ToDto();
+        }
+
+        public async Task<TicketDto> BookSeat(int sessionId, int userId, int rowNumber, int seatNumber)
+        {
+            var session = await _sessionRepository.GetAsync(sessionId, "Hall");
+            if(session is null)
+            {
+                throw new HttpException("Session does not exist.", HttpStatusCode.BadRequest);
+            }
+
+            var user = await _userService.GetByIdAsync(userId);
+            if (user is null)
+            {
+                throw new HttpException("User does not exist.", HttpStatusCode.BadRequest);
+            }
+
+            if (rowNumber < 1 || rowNumber > session.Hall.RowsCount + session.Hall.RowsVipCount)
+            {
+                throw new HttpException("Row number is invalid.", HttpStatusCode.BadRequest);
+            }
+
+            if (seatNumber < 0 ||
+                rowNumber <= session.Hall.RowsCount && seatNumber > session.Hall.SeatsCountPerRow || 
+                rowNumber <= session.Hall.RowsVipCount && seatNumber > session.Hall.SeatsVipCountPerRow)
+            {
+                throw new HttpException("Seat number is invalid.", HttpStatusCode.BadRequest);
+            }
+
+            bool isVip = rowNumber > session.Hall.RowsCount;
+
+            TicketDto ticket = new TicketDto()
+            {
+                Price = isVip ? session.TicketVipPrice : session.TicketPrice,
+                RowNumber = rowNumber,
+                SeatNumber = seatNumber,
+                SessionID = sessionId,
+                UserID = userId,
+            };
+
+            TicketDto entity = await _ticketService.AddAsync(ticket);
+            return entity;
         }
 
         protected void ValidateSession(Session session)

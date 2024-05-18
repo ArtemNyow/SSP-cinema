@@ -3,6 +3,7 @@ using BLL.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebApi.Controllers
 {
@@ -124,6 +125,31 @@ namespace WebApi.Controllers
                     .GetActiveSessions()
                     .ToListAsync();
                 return Ok(activeSessions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // GET: api/sessions/active
+        [HttpGet("{id}/book")]
+        public async Task<ActionResult<TicketDto>> BookSeat(
+            int id,
+            [FromQuery] int rowNumber,
+            [FromQuery] int seatNumber)
+        {
+            try
+            {
+                int userId;
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
+                {
+                    return Forbid();
+                }
+
+                var ticket = await _sessionService.BookSeat(id, userId, rowNumber, seatNumber);
+                return Ok(ticket);
             }
             catch (Exception ex)
             {
