@@ -24,7 +24,7 @@ public class StatisticService : IStatisticService
         var totalProfit = movie.Sessions.Sum(s => s.Tickets.Sum(t => t.Price));
 
         var ticketsCount = movie.Sessions.Select(s => s.Tickets.Count);
-        var sessionsHallsCapacity = movie.Sessions.Select(s => s.Hall.RowsCount * (s.Hall.SeatsCountPerRow + s.Hall.SeatsVipCountPerRow));
+        var sessionsHallsCapacity = movie.Sessions.Select(s => s.Hall.RowsCount * s.Hall.SeatsCountPerRow + s.Hall.RowsVipCount * s.Hall.SeatsVipCountPerRow);
         
         var averageValues = ticketsCount.Zip(sessionsHallsCapacity, (tickets, capacity) => (double)tickets / capacity);
         
