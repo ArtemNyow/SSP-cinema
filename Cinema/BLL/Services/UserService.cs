@@ -115,7 +115,7 @@ namespace BLL.Services
         {
             var user = await _userRepository
                 .GetAll()
-                .FirstOrDefaultAsync(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.Email == login.Email);
 
             if (user is null || !_passwordHashService.Verify(login.Password, user.Password))
             {
