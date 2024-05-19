@@ -29,11 +29,12 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult<Person>> Add([FromBody] Person person)
         {
             try
             {
+                person.ID = 0;
                 var addedPerson = await _personService.AddAsync(person);
                 return Ok(addedPerson);
             }
@@ -71,7 +72,7 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult<Person>> Update([FromBody] Person person)
         {
             try

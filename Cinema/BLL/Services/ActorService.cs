@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Models;
 
@@ -13,42 +15,46 @@ namespace BLL.Services
             _actorRepository = ActorRepository;
         }
 
-        public async Task<Actor> AddAsync(Actor model)
+        public async Task<ActorDto> AddAsync(ActorDto model)
         {
-            ValidateActor(model);
+            Actor actor = model.ToEntity();
+            ValidateActor(actor);
 
-            Actor entity = await _actorRepository.AddAsync(model);
+            Actor entity = await _actorRepository.AddAsync(actor);
             await _actorRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<Actor> DeleteAsync(int id)
+        public async Task<ActorDto> DeleteAsync(int id)
         {
             Actor entity = await _actorRepository.DeleteAsync(id);
             await _actorRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public IQueryable<Actor> GetAll()
+        public IQueryable<ActorDto> GetAll()
         {
-            return _actorRepository.GetAll();
+            return _actorRepository
+                .GetAll("Person")
+                .Select(a => a.ToDto());
         }
 
-        public async Task<Actor> GetByIdAsync(int id)
+        public async Task<ActorDto> GetByIdAsync(int id)
         {
-            return await _actorRepository.GetAsync(id);
+            return (await _actorRepository.GetAsync(id, "Person")).ToDto();
         }
 
-        public async Task<Actor> UpdateAsync(Actor model)
+        public async Task<ActorDto> UpdateAsync(ActorDto model)
         {
-            ValidateActor(model);
+            Actor actor = model.ToEntity();
+            ValidateActor(actor);
 
-            Actor entity = _actorRepository.Update(model);
+            Actor entity = _actorRepository.Update(actor);
             await _actorRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
         protected void ValidateActor(Actor actor)

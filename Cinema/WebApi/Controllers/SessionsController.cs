@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace WebApi.Controllers
 
         // GET: api/sessions
         [HttpGet]
-        public async Task<ActionResult<List<Session>>> Get(
+        public async Task<ActionResult<List<SessionDto>>> Get(
             [FromQuery] DateOnly? dateFrom,
             [FromQuery] DateOnly? dateTo,
             [FromQuery] TimeOnly? timeFrom,
@@ -55,7 +56,7 @@ namespace WebApi.Controllers
 
         // GET: api/sessions/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<Session>> GetById(int id)
+        public async Task<ActionResult<SessionDto>> GetById(int id)
         {
             try
             {
@@ -68,9 +69,9 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/sessions
-        [HttpPut]
-        public async Task<ActionResult<Session>> Add([FromBody] Session session)
+        // POST: api/sessions
+        [HttpPost]
+        public async Task<ActionResult<SessionDto>> Add([FromBody] SessionDto session)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace WebApi.Controllers
 
         // DELETE: api/sessions/1
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Session>> Delete(int id)
+        public async Task<ActionResult<SessionDto>> Delete(int id)
         {
             try
             {
@@ -98,9 +99,9 @@ namespace WebApi.Controllers
             }
         }
 
-        // POST: api/sessions
-        [HttpPost]
-        public async Task<ActionResult<Session>> Update([FromBody] Session session)
+        // PUT: api/sessions
+        [HttpPut]
+        public async Task<ActionResult<SessionDto>> Update([FromBody] SessionDto session)
         {
             try
             {
@@ -115,11 +116,13 @@ namespace WebApi.Controllers
         
         // GET: api/sessions/active
         [HttpGet("active")]
-        public async Task<ActionResult<List<Session>>> GetActiveSessions()
+        public async Task<ActionResult<List<SessionDto>>> GetActiveSessions()
         {
             try
             {
-                var activeSessions = await _sessionService.GetActiveSessions().ToListAsync();
+                var activeSessions = await _sessionService
+                    .GetActiveSessions()
+                    .ToListAsync();
                 return Ok(activeSessions);
             }
             catch (Exception ex)

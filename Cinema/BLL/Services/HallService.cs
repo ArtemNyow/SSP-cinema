@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Models;
 
@@ -13,42 +15,46 @@ namespace BLL.Services
             _hallRepository = HallRepository;
         }
 
-        public async Task<Hall> AddAsync(Hall model)
+        public async Task<HallDto> AddAsync(HallDto model)
         {
-            ValidateHall(model);
+            Hall hall = model.ToEntity();
+            ValidateHall(hall);
 
-            Hall entity = await _hallRepository.AddAsync(model);
+            Hall entity = await _hallRepository.AddAsync(hall);
             await _hallRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<Hall> DeleteAsync(int id)
+        public async Task<HallDto> DeleteAsync(int id)
         {
             Hall entity = await _hallRepository.DeleteAsync(id);
             await _hallRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public IQueryable<Hall> GetAll()
+        public IQueryable<HallDto> GetAll()
         {
-            return _hallRepository.GetAll();
+            return _hallRepository
+                .GetAll()
+                .Select(h => h.ToDto());
         }
 
-        public async Task<Hall> GetByIdAsync(int id)
+        public async Task<HallDto> GetByIdAsync(int id)
         {
-            return await _hallRepository.GetAsync(id);
+            return (await _hallRepository.GetAsync(id)).ToDto();
         }
 
-        public async Task<Hall> UpdateAsync(Hall model)
+        public async Task<HallDto> UpdateAsync(HallDto model)
         {
-            ValidateHall(model);
+            Hall hall = model.ToEntity();
+            ValidateHall(hall);
 
-            Hall entity = _hallRepository.Update(model);
+            Hall entity = _hallRepository.Update(hall);
             await _hallRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
         protected void ValidateHall(Hall hall)

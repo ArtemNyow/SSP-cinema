@@ -1,8 +1,7 @@
-﻿using Domain.Models;
-
+﻿using BLL.DTOs;
 namespace BLL.Interfaces
 {
-    public interface ITicketService : ICrud<Ticket>
+    public interface ITicketService : ICrud<TicketDto>
     {
 
     }

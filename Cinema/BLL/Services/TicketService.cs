@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Models;
 
@@ -13,42 +15,46 @@ namespace BLL.Services
             _ticketRepository = TicketRepository;
         }
 
-        public async Task<Ticket> AddAsync(Ticket model)
+        public async Task<TicketDto> AddAsync(TicketDto model)
         {
-            ValidateTicket(model);
+            Ticket ticket = model.ToEntity();
+            ValidateTicket(ticket);
 
-            Ticket entity = await _ticketRepository.AddAsync(model);
+            Ticket entity = await _ticketRepository.AddAsync(ticket);
             await _ticketRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<Ticket> DeleteAsync(int id)
+        public async Task<TicketDto> DeleteAsync(int id)
         {
             Ticket entity = await _ticketRepository.DeleteAsync(id);
             await _ticketRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public IQueryable<Ticket> GetAll()
+        public IQueryable<TicketDto> GetAll()
         {
-            return _ticketRepository.GetAll();
+            return _ticketRepository
+                .GetAll()
+                .Select(s => s.ToDto());
         }
 
-        public async Task<Ticket> GetByIdAsync(int id)
+        public async Task<TicketDto> GetByIdAsync(int id)
         {
-            return await _ticketRepository.GetAsync(id);
+            return (await _ticketRepository.GetAsync(id)).ToDto();
         }
 
-        public async Task<Ticket> UpdateAsync(Ticket model)
+        public async Task<TicketDto> UpdateAsync(TicketDto model)
         {
-            ValidateTicket(model);
+            Ticket ticket = model.ToEntity();
+            ValidateTicket(ticket);
 
-            Ticket entity = _ticketRepository.Update(model);
+            Ticket entity = _ticketRepository.Update(ticket);
             await _ticketRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
         protected void ValidateTicket(Ticket ticket)

@@ -1,5 +1,7 @@
 ﻿using System.Security.Authentication;
+using BLL.DTOs;
 using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Enums;
 using Domain.Models;
@@ -26,74 +28,80 @@ namespace BLL.Services
             _authService = authService;
         }
 
-        public async Task<User> AddAsync(User model)
+        public async Task<UserDto> AddAsync(CreateUser model)
         {
-            ValidateUser(model);
+            User user = model.ToEntity();
+            ValidateUser(user);
 
-            model.Password = _passwordHashService.Hash(model.Password);
+            user.Password = _passwordHashService.Hash(user.Password);
 
-            User entity = await _userRepository.AddAsync(model);
+            User entity = await _userRepository.AddAsync(user);
             await _userRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<User> DeleteAsync(int id)
+        public async Task<UserDto> DeleteAsync(int id)
         {
             User entity = await _userRepository.DeleteAsync(id);
             await _userRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public IQueryable<User> GetAll()
+        public IQueryable<UserDto> GetAll()
         {
-            return _userRepository.GetAll();
+            return _userRepository
+                .GetAll("Person")
+                .Select(u => u.ToDto());
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<UserDto> GetByIdAsync(int id)
         {
-            return await _userRepository.GetAsync(id);
+            return (await _userRepository.GetAsync(id, "Person")).ToDto();
         }
 
-        public async Task<User> UpdateAsync(User model)
+        public async Task<UserDto> UpdateAsync(UpdateUser model)
         {
-            ValidateUser(model);
+            User user = model.ToEntity();
+            ValidateUser(user);
 
-            model.Password = _passwordHashService.Hash(model.Password);
+            user.Password = _passwordHashService.Hash(user.Password);
 
-            User entity = _userRepository.Update(model);
+            User entity = _userRepository.Update(user);
             await _userRepository.SaveAsync();
 
-            return entity;
+            return entity.ToDto();
         }
 
-        public async Task<List<Ticket>> GetTicketsByUserId(int id)
+        public async Task<List<TicketDto>> GetTicketsByUserId(int id)
         {
             var user = await _userRepository.GetAsync(id, "Tickets");
-            return user.Tickets;
+            return user.Tickets.Select(t => t.ToDto()).ToList();
         }
 
-        public async Task<List<Session>> GetPersonalRecommendations(int id)
+        public async Task<List<SessionDto>> GetPersonalRecommendations(int id)
         {
             var user = await _userRepository.GetAsync(id, "Tickets.Session.Movie.Genres");
 
-            var userMovies = from Ticket in user.Tickets
-                             select Ticket.Session.Movie;
+            var userMovies = user.Tickets.Select(t => t.Session.Movie);
 
             var genres = userMovies.SelectMany(m => m.Genres).Distinct();
             var ageRatings = userMovies.Select(m => m.AgeRating).Distinct();
 
-            var allMovies = await _movieRepository.GetAll("Genres", "Sessions").ToListAsync();
+            var allMovies = await _movieRepository
+                .GetAll("Genres", "Sessions", "Hall")
+                .ToListAsync();
 
             var recommendationMovies = allMovies
                 .Where(movie => !userMovies.Any(m => m.Title == movie.Title))
-                .Where(movie => movie.Genres.Any(g => genres.Any(ge => ge.Name == g.Name)))
+                .Where(movie => movie.Genres.Exists(g => genres.Any(ge => ge.Name == g.Name)))
                 .Where(movie => ageRatings.Any(rating => Math.Abs(movie.AgeRating - rating) <= 3));
 
             var sessions = recommendationMovies
                 .SelectMany(movie => movie.Sessions
-                    .Where(s => s.Status == SessionStatus.Active))
+                    .Where(s => s.Status == SessionStatus.Active)
+                    .Select(s => s.ToDto()))
                 .ToList();
 
             return sessions;
@@ -125,6 +133,15 @@ namespace BLL.Services
                 throw new ArgumentException("User password must be valid.", nameof(user));
             }
         }
-        
+
+        protected void ValidateUserDto(UserDto user)
+        {
+            ArgumentNullException.ThrowIfNull(user);
+
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                throw new ArgumentException("User email must be valid.", nameof(user));
+            }
+        }
     }
 }

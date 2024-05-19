@@ -1,5 +1,5 @@
-﻿using BLL.Interfaces;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Actor>>> Get()
+        public async Task<ActionResult<List<ActorDto>>> Get()
         {
             try
             {
@@ -29,8 +29,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Actor>> Add([FromBody] Actor actor)
+        [HttpPost]
+        public async Task<ActionResult<ActorDto>> Add([FromBody] ActorDto actor)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Actor>> Delete(int id)
+        public async Task<ActionResult<ActorDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Actor>> GetById(int id)
+        public async Task<ActionResult<ActorDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +71,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Actor>> Update([FromBody] Actor actor)
+        [HttpPut]
+        public async Task<ActionResult<ActorDto>> Update([FromBody] ActorDto actor)
         {
             try
             {

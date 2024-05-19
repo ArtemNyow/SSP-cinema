@@ -1,5 +1,5 @@
-﻿using BLL.Interfaces;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Ticket>>> Get()
+        public async Task<ActionResult<List<TicketDto>>> Get()
         {
             try
             {
@@ -29,8 +29,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Ticket>> Add([FromBody] Ticket ticket)
+        [HttpPost]
+        public async Task<ActionResult<TicketDto>> Add([FromBody] TicketDto ticket)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Ticket>> Delete(int id)
+        public async Task<ActionResult<TicketDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ticket>> GetById(int id)
+        public async Task<ActionResult<TicketDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +71,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Ticket>> Update([FromBody] Ticket ticket)
+        [HttpPut]
+        public async Task<ActionResult<TicketDto>> Update([FromBody] TicketDto ticket)
         {
             try
             {
