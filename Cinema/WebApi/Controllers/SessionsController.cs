@@ -1,6 +1,7 @@
 ﻿using BLL.DTOs;
 using BLL.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -20,6 +21,7 @@ namespace WebApi.Controllers
 
         // GET: api/sessions
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<SessionDto>>> Get(
             [FromQuery] DateOnly? dateFrom,
             [FromQuery] DateOnly? dateTo,
@@ -29,6 +31,8 @@ namespace WebApi.Controllers
             [FromQuery] int? maxPrice,
             [FromQuery] int? hallNumber,
             [FromQuery] string[]? movieGenres,
+            [FromQuery] string[]? movieActors,
+            [FromQuery] string[]? movieDirectors,
             [FromQuery] string? movieTitle)
         {
             try
@@ -43,6 +47,8 @@ namespace WebApi.Controllers
                     MaxPrice = maxPrice ?? int.MaxValue,
                     HallNumber = hallNumber,
                     MovieGenres = movieGenres ?? Array.Empty<string>(),
+                    MovieActors = movieActors?? Array.Empty<string>(),
+                    MovieDirectors = movieDirectors ?? Array.Empty<string>(),
                     MovieTitle = movieTitle,
                 };
 
@@ -57,6 +63,7 @@ namespace WebApi.Controllers
 
         // GET: api/sessions/1
         [HttpGet("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<SessionDto>> GetById(int id)
         {
             try
@@ -72,6 +79,7 @@ namespace WebApi.Controllers
 
         // POST: api/sessions
         [HttpPost]
+        [Authorize("admin")]
         public async Task<ActionResult<SessionDto>> Add([FromBody] SessionDto session)
         {
             try
@@ -87,6 +95,7 @@ namespace WebApi.Controllers
 
         // DELETE: api/sessions/1
         [HttpDelete("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<SessionDto>> Delete(int id)
         {
             try
@@ -102,6 +111,7 @@ namespace WebApi.Controllers
 
         // PUT: api/sessions
         [HttpPut]
+        [Authorize("admin")]
         public async Task<ActionResult<SessionDto>> Update([FromBody] SessionDto session)
         {
             try
@@ -117,6 +127,7 @@ namespace WebApi.Controllers
         
         // GET: api/sessions/active
         [HttpGet("active")]
+        [Authorize]
         public async Task<ActionResult<List<SessionDto>>> GetActiveSessions()
         {
             try
@@ -134,6 +145,7 @@ namespace WebApi.Controllers
 
         // GET: api/sessions/active
         [HttpGet("{id}/book")]
+        [Authorize]
         public async Task<ActionResult<TicketDto>> BookSeat(
             int id,
             [FromQuery] int rowNumber,

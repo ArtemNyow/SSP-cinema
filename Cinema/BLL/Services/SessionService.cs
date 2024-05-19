@@ -65,6 +65,8 @@ namespace BLL.Services
                     (s.TicketPrice <= filter.MaxPrice) &&
                     (filter.HallNumber == null || s.Hall.Number == filter.HallNumber) &&
                     (filter.MovieGenres.Length == 0 || s.Movie.Genres.Any(g => filter.MovieGenres.Contains(g.Name))) &&
+                    (filter.MovieActors.Length == 0 || s.Movie.Actors.Any(a => filter.MovieActors.Contains(a.Person.FirstName) || filter.MovieActors.Contains(a.Person.LastName))) &&
+                    (filter.MovieDirectors.Length == 0 || s.Movie.Directors.Any(d => filter.MovieDirectors.Contains(d.Person.FirstName) || filter.MovieDirectors.Contains(d.Person.LastName))) &&                  
                     (filter.MovieTitle == null || s.Movie.Title.Contains(filter.MovieTitle, StringComparison.InvariantCultureIgnoreCase)))
                 .Select(s => s.ToDto());
         }

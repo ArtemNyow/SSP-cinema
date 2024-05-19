@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize("admin")]
         public async Task<ActionResult<List<ActorDto>>> Get()
         {
             try
@@ -30,6 +32,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize("admin")]
         public async Task<ActionResult<ActorDto>> Add([FromBody] ActorDto actor)
         {
             try
@@ -44,6 +47,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<ActorDto>> Delete(int id)
         {
             try
@@ -58,6 +62,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<ActorDto>> GetById(int id)
         {
             try
@@ -72,6 +77,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize("admin")]
         public async Task<ActionResult<ActorDto>> Update([FromBody] ActorDto actor)
         {
             try
