@@ -123,7 +123,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var jwtToken = await _userService.Login(login.Email, login.Password);
+                var jwtToken = await _userService.Login(login);
                 return Ok(jwtToken);
             }
             catch (Exception ex)
@@ -137,8 +137,22 @@ namespace WebApi.Controllers
         {
             try
             {
-                var getUserById = await _statisticService.GetUserStatisticById(id);
-                return Ok(getUserById);
+                var userStatistic = await _statisticService.GetUserStatisticById(id);
+                return Ok(userStatistic);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost(template: "register")]
+        public async Task<ActionResult> Register([FromBody] Register register)
+        {
+            try
+            {
+                await _userService.Register(register);
+                return Ok();
             }
             catch (Exception ex)
             {
