@@ -29,6 +29,8 @@ namespace WebApi.Controllers
             [FromQuery] int? maxPrice,
             [FromQuery] int? hallNumber,
             [FromQuery] string[]? movieGenres,
+            [FromQuery] string[]? movieActors,
+            [FromQuery] string[]? movieDirectors,
             [FromQuery] string? movieTitle)
         {
             try
@@ -43,6 +45,8 @@ namespace WebApi.Controllers
                     MaxPrice = maxPrice ?? int.MaxValue,
                     HallNumber = hallNumber,
                     MovieGenres = movieGenres ?? Array.Empty<string>(),
+                    MovieActors = movieActors?? Array.Empty<string>(),
+                    MovieDirectors = movieDirectors ?? Array.Empty<string>(),
                     MovieTitle = movieTitle,
                 };
 
