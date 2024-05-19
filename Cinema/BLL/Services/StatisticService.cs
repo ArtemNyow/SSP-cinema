@@ -19,7 +19,7 @@ public class StatisticService : IStatisticService
     
     public async Task<MovieStatistic> GetMovieStatisticById(int id)
     {
-        var movie = await _movieRepository.GetAsync(id, "Sessions.Tickets", "Sessions.Hall", "Actors", "Genres", "Directors");
+        var movie = await _movieRepository.GetAsync(id, "Sessions.Tickets", "Sessions.Hall", "Actors.Person", "Genres", "Directors.Person");
 
         var totalProfit = movie.Sessions.Sum(s => s.Tickets.Sum(t => t.Price));
 
