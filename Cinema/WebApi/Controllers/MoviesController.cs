@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<MovieDto>>> Get()
         {
             try
@@ -32,6 +34,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize("admin")]
         public async Task<ActionResult<MovieDto>> Add([FromBody] MovieDto movie)
         {
             try
@@ -46,6 +49,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<MovieDto>> Delete(int id)
         {
             try
@@ -60,6 +64,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<MovieDto>> GetById(int id)
         {
             try
@@ -74,6 +79,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize("admin")]
         public async Task<ActionResult<MovieDto>> Update([FromBody] MovieDto movie)
         {
             try
@@ -88,6 +94,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}/statistic")]
+        [Authorize("admin")]
         public async Task<ActionResult<MovieStatistic>> GetStatisticById(int id)
         {
             try

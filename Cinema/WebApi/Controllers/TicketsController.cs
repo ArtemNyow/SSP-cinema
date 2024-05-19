@@ -1,7 +1,9 @@
 ﻿using BLL.DTOs;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebApi.Controllers
 {
@@ -15,13 +17,36 @@ namespace WebApi.Controllers
             _ticketService = ticketService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<TicketDto>>> Get()
+        [HttpGet("all")]
+        [Authorize("admin")]
+        public async Task<ActionResult<List<TicketDto>>> GetAll()
         {
             try
             {
-                var tikets = await _ticketService.GetAll().ToListAsync();
-                return Ok(tikets);
+                var tickets = await _ticketService.GetAll().ToListAsync();
+                return Ok(tickets);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<TicketDto>> Get()
+        {
+            try
+            {
+                int userId;
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
+                {
+                    return Unauthorized();
+                }
+
+                var getTicketById = await _ticketService.GetByIdAsync(userId);
+                return Ok(getTicketById);
             }
             catch (Exception ex)
             {
@@ -30,6 +55,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize("admin")]
         public async Task<ActionResult<TicketDto>> Add([FromBody] TicketDto ticket)
         {
             try
@@ -44,6 +70,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<TicketDto>> Delete(int id)
         {
             try
@@ -58,6 +85,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<TicketDto>> GetById(int id)
         {
             try
@@ -72,6 +100,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize("admin")]
         public async Task<ActionResult<TicketDto>> Update([FromBody] TicketDto ticket)
         {
             try
