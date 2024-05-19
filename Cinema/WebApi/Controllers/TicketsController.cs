@@ -12,9 +12,14 @@ namespace WebApi.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly ITicketService _ticketService;
-        public TicketsController(ITicketService ticketService)
+        private readonly IUserService _userService;
+
+        public TicketsController(
+            ITicketService ticketService,
+            IUserService userService)
         {
             _ticketService = ticketService;
+            _userService = userService;
         }
 
         [HttpGet("all")]
@@ -45,7 +50,7 @@ namespace WebApi.Controllers
                     return Unauthorized();
                 }
 
-                var getTicketById = await _ticketService.GetByIdAsync(userId);
+                var getTicketById = await _userService.GetTicketsByUserId(userId);
                 return Ok(getTicketById);
             }
             catch (Exception ex)
