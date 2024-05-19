@@ -121,6 +121,15 @@ namespace BLL.Services
                 throw new HttpException("Seat number is invalid.", HttpStatusCode.BadRequest);
             }
 
+            var existingTicket = _ticketService
+                .GetAll()
+                .AsEnumerable()
+                .FirstOrDefault(t => t.SeatNumber == seatNumber && t.RowNumber == rowNumber);
+            if (existingTicket is not null)
+            {
+                throw new HttpException("Ticket with the same row and seat already exists.", HttpStatusCode.BadRequest);
+            }
+
             bool isVip = rowNumber > session.Hall.RowsCount;
 
             TicketDto ticket = new TicketDto()
