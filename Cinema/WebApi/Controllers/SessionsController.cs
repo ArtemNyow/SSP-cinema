@@ -145,7 +145,7 @@ namespace WebApi.Controllers
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
                 if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
                 {
-                    return Forbid();
+                    return Unauthorized();
                 }
 
                 var ticket = await _sessionService.BookSeat(id, userId, rowNumber, seatNumber);
