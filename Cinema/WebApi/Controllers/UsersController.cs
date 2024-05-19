@@ -1,6 +1,5 @@
 ﻿using BLL.DTOs;
 using BLL.Interfaces;
-using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -125,7 +124,6 @@ namespace WebApi.Controllers
         {
             try
             {
-
                 var userTickets = await _userService.GetTicketsByUserId(id);
                 return Ok(userTickets);
             }
