@@ -19,7 +19,7 @@ public class StatisticService : IStatisticService
     
     public async Task<MovieStatistic> GetMovieStatisticById(int id)
     {
-        var movie = await _movieRepository.GetAsync(id, "Sessions.Tickets");
+        var movie = await _movieRepository.GetAsync(id, "Sessions.Tickets", "Sessions.Hall", "Actors", "Genres", "Directors");
 
         var totalProfit = movie.Sessions.Sum(s => s.Tickets.Sum(t => t.Price));
 
@@ -42,7 +42,7 @@ public class StatisticService : IStatisticService
 
     public async Task<UserStatistic> GetUserStatisticById(int id)
     {
-        var user = await _userRepository.GetAsync(id, "Tickets.Session.Movie.Genres");
+        var user = await _userRepository.GetAsync(id, "Tickets.Session.Movie.Genres", "Person");
 
         var totalSpending = user.Tickets.Sum(t => t.Price);
 
