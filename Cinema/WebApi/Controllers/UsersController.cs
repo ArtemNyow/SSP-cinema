@@ -131,7 +131,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost(template: "register")]
-        public async Task<ActionResult<string>> Register([FromBody] Register register)
+        public async Task<ActionResult> Register([FromBody] Register register)
         {
             try
             {
