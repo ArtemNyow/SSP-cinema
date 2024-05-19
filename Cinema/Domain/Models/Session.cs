@@ -12,5 +12,6 @@ namespace Domain.Models
         public SessionStatus Status { get; set; }
         public Movie Movie { get; set; }  
         public Hall Hall { get; set; }
+        public List<Ticket> Tickets { get; set; } = new();
     }
 }
