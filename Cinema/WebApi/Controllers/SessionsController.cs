@@ -1,7 +1,10 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebApi.Controllers
 {
@@ -18,7 +21,8 @@ namespace WebApi.Controllers
 
         // GET: api/sessions
         [HttpGet]
-        public async Task<ActionResult<List<Session>>> Get(
+        [Authorize]
+        public async Task<ActionResult<List<SessionDto>>> Get(
             [FromQuery] DateOnly? dateFrom,
             [FromQuery] DateOnly? dateTo,
             [FromQuery] TimeOnly? timeFrom,
@@ -27,6 +31,8 @@ namespace WebApi.Controllers
             [FromQuery] int? maxPrice,
             [FromQuery] int? hallNumber,
             [FromQuery] string[]? movieGenres,
+            [FromQuery] string[]? movieActors,
+            [FromQuery] string[]? movieDirectors,
             [FromQuery] string? movieTitle)
         {
             try
@@ -41,6 +47,8 @@ namespace WebApi.Controllers
                     MaxPrice = maxPrice ?? int.MaxValue,
                     HallNumber = hallNumber,
                     MovieGenres = movieGenres ?? Array.Empty<string>(),
+                    MovieActors = movieActors?? Array.Empty<string>(),
+                    MovieDirectors = movieDirectors ?? Array.Empty<string>(),
                     MovieTitle = movieTitle,
                 };
 
@@ -55,7 +63,8 @@ namespace WebApi.Controllers
 
         // GET: api/sessions/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<Session>> GetById(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<SessionDto>> GetById(int id)
         {
             try
             {
@@ -68,9 +77,10 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/sessions
-        [HttpPut]
-        public async Task<ActionResult<Session>> Add([FromBody] Session session)
+        // POST: api/sessions
+        [HttpPost]
+        [Authorize("admin")]
+        public async Task<ActionResult<SessionDto>> Add([FromBody] SessionDto session)
         {
             try
             {
@@ -85,7 +95,8 @@ namespace WebApi.Controllers
 
         // DELETE: api/sessions/1
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Session>> Delete(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<SessionDto>> Delete(int id)
         {
             try
             {
@@ -98,9 +109,10 @@ namespace WebApi.Controllers
             }
         }
 
-        // POST: api/sessions
-        [HttpPost]
-        public async Task<ActionResult<Session>> Update([FromBody] Session session)
+        // PUT: api/sessions
+        [HttpPut]
+        [Authorize("admin")]
+        public async Task<ActionResult<SessionDto>> Update([FromBody] SessionDto session)
         {
             try
             {
@@ -115,12 +127,41 @@ namespace WebApi.Controllers
         
         // GET: api/sessions/active
         [HttpGet("active")]
-        public async Task<ActionResult<List<Session>>> GetActiveSessions()
+        [Authorize]
+        public async Task<ActionResult<List<SessionDto>>> GetActiveSessions()
         {
             try
             {
-                var activeSessions = await _sessionService.GetActiveSessions().ToListAsync();
+                var activeSessions = await _sessionService
+                    .GetActiveSessions()
+                    .ToListAsync();
                 return Ok(activeSessions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // GET: api/sessions/active
+        [HttpGet("{id}/book")]
+        [Authorize]
+        public async Task<ActionResult<TicketDto>> BookSeat(
+            int id,
+            [FromQuery] int rowNumber,
+            [FromQuery] int seatNumber)
+        {
+            try
+            {
+                int userId;
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
+                {
+                    return Unauthorized();
+                }
+
+                var ticket = await _sessionService.BookSeat(id, userId, rowNumber, seatNumber);
+                return Ok(ticket);
             }
             catch (Exception ex)
             {

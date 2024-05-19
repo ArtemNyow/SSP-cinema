@@ -10,6 +10,8 @@
         public int MaxPrice { get; set; }
         public int? HallNumber { get; set; }
         public string[] MovieGenres { get; set; } = Array.Empty<string>();
+        public string[] MovieActors { get; set; } = Array.Empty<string>();
+        public string[] MovieDirectors { get; set; } = Array.Empty<string>();
         public string? MovieTitle { get; set; }
 
         public SessionFilterSearch() { }
@@ -23,6 +25,8 @@
             int maxPrice, 
             int? hallNumber,
             string[] movieGenres, 
+            string[] movieActors, 
+            string[] movieDirectors, 
             string? movieTitle)
         {
             TimeFrom = timeFrom;
@@ -33,6 +37,8 @@
             MaxPrice = maxPrice;
             HallNumber = hallNumber;
             MovieGenres = movieGenres;
+            MovieActors = movieActors;
+            MovieDirectors = movieDirectors;
             MovieTitle = movieTitle;
         }
     }

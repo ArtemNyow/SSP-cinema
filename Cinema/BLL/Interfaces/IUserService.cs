@@ -1,11 +1,18 @@
-﻿using Domain.Models;
+﻿using BLL.DTOs;
 
 namespace BLL.Interfaces
 {
-    public interface IUserService : ICrud<User>
+    public interface IUserService
     {
-        Task<List<Ticket>> GetTicketsByUserId(int id);
-        Task<List<Session>> GetPersonalRecommendations(int id);
-        Task<string> Login(string email, string password);
+        IQueryable<UserDto> GetAll();
+        Task<UserDto> GetByIdAsync(int id);
+        Task<UserDto> AddAsync(CreateUser model);
+        Task<UserDto> UpdateAsync(UpdateUser model);
+        Task<UserDto> DeleteAsync(int id);
+
+        Task<List<TicketDto>> GetTicketsByUserId(int id);
+        Task<List<SessionDto>> GetPersonalRecommendations(int id);
+        Task<string> Login(Login login);
+        Task Register(Register register);
     }
 }

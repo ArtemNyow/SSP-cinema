@@ -1,7 +1,9 @@
-﻿using BLL.Interfaces;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebApi.Controllers
 {
@@ -15,13 +17,14 @@ namespace WebApi.Controllers
             _ticketService = ticketService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Ticket>>> Get()
+        [HttpGet("all")]
+        [Authorize("admin")]
+        public async Task<ActionResult<List<TicketDto>>> GetAll()
         {
             try
             {
-                var tikets = await _ticketService.GetAll().ToListAsync();
-                return Ok(tikets);
+                var tickets = await _ticketService.GetAll().ToListAsync();
+                return Ok(tickets);
             }
             catch (Exception ex)
             {
@@ -29,8 +32,31 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Ticket>> Add([FromBody] Ticket ticket)
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<TicketDto>> Get()
+        {
+            try
+            {
+                int userId;
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
+                {
+                    return Unauthorized();
+                }
+
+                var getTicketById = await _ticketService.GetByIdAsync(userId);
+                return Ok(getTicketById);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Authorize("admin")]
+        public async Task<ActionResult<TicketDto>> Add([FromBody] TicketDto ticket)
         {
             try
             {
@@ -44,7 +70,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Ticket>> Delete(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<TicketDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +85,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ticket>> GetById(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<TicketDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +99,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Ticket>> Update([FromBody] Ticket ticket)
+        [HttpPut]
+        [Authorize("admin")]
+        public async Task<ActionResult<TicketDto>> Update([FromBody] TicketDto ticket)
         {
             try
             {

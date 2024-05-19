@@ -1,5 +1,6 @@
 ﻿using BLL.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize("admin")]
         public async Task<ActionResult<List<Person>>> Get()
         {
             try
@@ -29,11 +31,13 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
+        [Authorize("admin")]
         public async Task<ActionResult<Person>> Add([FromBody] Person person)
         {
             try
             {
+                person.ID = 0;
                 var addedPerson = await _personService.AddAsync(person);
                 return Ok(addedPerson);
             }
@@ -44,6 +48,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<Person>> Delete(int id)
         {
             try
@@ -58,6 +63,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize("admin")]
         public async Task<ActionResult<Person>> GetById(int id)
         {
             try
@@ -71,7 +77,8 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Authorize("admin")]
         public async Task<ActionResult<Person>> Update([FromBody] Person person)
         {
             try

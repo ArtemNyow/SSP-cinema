@@ -1,5 +1,6 @@
-﻿using BLL.Interfaces;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,13 +11,16 @@ namespace WebApi.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _movieService;
-        public MoviesController(IMovieService movieService)
+        private readonly IStatisticService _statisticService;
+        public MoviesController(IMovieService movieService, IStatisticService statisticService)
         {
             _movieService = movieService;
+            _statisticService = statisticService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Movie>>> Get()
+        [Authorize]
+        public async Task<ActionResult<List<MovieDto>>> Get()
         {
             try
             {
@@ -29,8 +33,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Movie>> Add([FromBody] Movie movie)
+        [HttpPost]
+        [Authorize("admin")]
+        public async Task<ActionResult<MovieDto>> Add([FromBody] MovieDto movie)
         {
             try
             {
@@ -44,7 +49,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Movie>> Delete(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<MovieDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +64,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetById(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<MovieDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +78,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Movie>> Update([FromBody] Movie movie)
+        [HttpPut]
+        [Authorize("admin")]
+        public async Task<ActionResult<MovieDto>> Update([FromBody] MovieDto movie)
         {
             try
             {
@@ -85,5 +93,19 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpGet("{id}/statistic")]
+        [Authorize("admin")]
+        public async Task<ActionResult<MovieStatistic>> GetStatisticById(int id)
+        {
+            try
+            {
+                var getUserById = await _statisticService.GetMovieStatisticById(id);
+                return Ok(getUserById);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

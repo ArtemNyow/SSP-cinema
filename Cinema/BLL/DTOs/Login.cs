@@ -1,4 +1,4 @@
-namespace Domain.Models;
+namespace BLL.DTOs;
 
 public class Login
 {

@@ -1,9 +1,8 @@
-﻿using BLL.Interfaces;
-using BLL.Services;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace WebApi.Controllers
 {
@@ -18,7 +17,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Hall>>> Get()
+        [Authorize("admin")]
+        public async Task<ActionResult<List<HallDto>>> Get()
         {
             try
             {
@@ -31,8 +31,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Hall>> Add([FromBody] Hall hall)
+        [HttpPost]
+        [Authorize("admin")]
+        public async Task<ActionResult<HallDto>> Add([FromBody] HallDto hall)
         {
             try
             {
@@ -46,7 +47,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Hall>> Delete(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<HallDto>> Delete(int id)
         {
             try
             {
@@ -60,7 +62,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hall>> GetById(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<HallDto>> GetById(int id)
         {
             try
             {
@@ -73,8 +76,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Hall>> Update([FromBody] Hall hall)
+        [HttpPut]
+        [Authorize("admin")]
+        public async Task<ActionResult<HallDto>> Update([FromBody] HallDto hall)
         {
             try
             {

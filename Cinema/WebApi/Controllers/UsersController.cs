@@ -1,7 +1,9 @@
-﻿using BLL.Interfaces;
-using Domain.Models;
+﻿using BLL.DTOs;
+using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebApi.Controllers
 {
@@ -10,17 +12,22 @@ namespace WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UsersController(IUserService userService)
+        private readonly IStatisticService _statisticService;
+        public UsersController(IUserService userService, IStatisticService statisticService)
         {
             _userService = userService;
+            _statisticService = statisticService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> Get()
+        [Authorize("admin")]
+        public async Task<ActionResult<List<UserDto>>> Get()
         {
             try
             {
-                var users = await _userService.GetAll().ToListAsync();
+                var users = await _userService
+                    .GetAll()
+                    .ToListAsync();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -29,8 +36,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<User>> Add([FromBody] User user)
+        [HttpPost]
+        [Authorize("admin")]
+        public async Task<ActionResult<UserDto>> Add([FromBody] CreateUser user)
         {
             try
             {
@@ -44,7 +52,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> Delete(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<UserDto>> Delete(int id)
         {
             try
             {
@@ -58,7 +67,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetById(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<UserDto>> GetById(int id)
         {
             try
             {
@@ -71,8 +81,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> Update([FromBody] User user)
+        [HttpPut]
+        [Authorize("admin")]
+        public async Task<ActionResult<UserDto>> Update([FromBody] UpdateUser user)
         {
             try
             {
@@ -85,8 +96,31 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpGet("tickets")]
+        [Authorize]
+        public async Task<ActionResult<List<TicketDto>>> GetTickets()
+        {
+            try
+            {
+                int userId;
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
+                {
+                    return Unauthorized();
+                }
+
+                var userTickets = await _userService.GetTicketsByUserId(userId);
+                return Ok(userTickets);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpGet("{id}/tickets")]
-        public async Task<ActionResult<List<User>>> GetTicketbyUserId(int id)
+        [Authorize("admin")]
+        public async Task<ActionResult<List<TicketDto>>> GetTicketsByUserId(int id)
         {
             try
             {
@@ -99,12 +133,20 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet("{id}/recommendations")]
-        public async Task<ActionResult<List<Session>>> GetRecommendations(int id)
+        [HttpGet("recommendations")]
+        [Authorize]
+        public async Task<ActionResult<List<SessionDto>>> GetRecommendations()
         {
             try
             {
-                var userRecommendations = await _userService.GetPersonalRecommendations(id);
+                int userId;
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (!int.TryParse(identity?.FindFirst("Jti")?.Value, out userId))
+                {
+                    return Unauthorized();
+                }
+
+                var userRecommendations = await _userService.GetPersonalRecommendations(userId);
                 return Ok(userRecommendations);
             }
             catch (Exception ex)
@@ -118,8 +160,37 @@ namespace WebApi.Controllers
         {
             try
             {
-                var jwtToken = await _userService.Login(login.Email, login.Password);
+                var jwtToken = await _userService.Login(login);
                 return Ok(jwtToken);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        
+        [HttpGet("{id}/statistic")]
+        [Authorize("admin")]
+        public async Task<ActionResult<UserStatistic>> GetStatisticById(int id)
+        {
+            try
+            {
+                var userStatistic = await _statisticService.GetUserStatisticById(id);
+                return Ok(userStatistic);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost(template: "register")]
+        public async Task<ActionResult> Register([FromBody] Register register)
+        {
+            try
+            {
+                await _userService.Register(register);
+                return Ok();
             }
             catch (Exception ex)
             {
