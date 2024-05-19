@@ -101,7 +101,7 @@ namespace BLL.Services
 
         public async Task<string> Login(string email, string password)
         {
-            var user = _userRepository.GetAll().FirstOrDefault(u => u.Email == email);
+            var user = await _userRepository.GetAll().FirstOrDefaultAsync(u => u.Email == email);
 
             if (user is null || !_passwordHashService.Verify(password, user.Password))
             {
