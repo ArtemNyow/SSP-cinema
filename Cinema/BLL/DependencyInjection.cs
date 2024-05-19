@@ -23,6 +23,7 @@ namespace BLL
 
             services.AddSingleton<IPasswordHashService, PasswordHashService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IStatisticService, StatisticService>();
         }
     }
 }

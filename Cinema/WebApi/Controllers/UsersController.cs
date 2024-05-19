@@ -11,9 +11,11 @@ namespace WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UsersController(IUserService userService)
+        private readonly IStatisticService _statisticService;
+        public UsersController(IUserService userService, IStatisticService statisticService)
         {
             _userService = userService;
+            _statisticService = statisticService;
         }
 
         [HttpGet]
@@ -123,6 +125,20 @@ namespace WebApi.Controllers
             {
                 var jwtToken = await _userService.Login(login);
                 return Ok(jwtToken);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        
+        [HttpGet("{id}/statistic")]
+        public async Task<ActionResult<UserStatistic>> GetStatisticById(int id)
+        {
+            try
+            {
+                var userStatistic = await _statisticService.GetUserStatisticById(id);
+                return Ok(userStatistic);
             }
             catch (Exception ex)
             {

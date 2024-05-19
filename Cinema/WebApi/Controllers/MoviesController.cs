@@ -10,9 +10,11 @@ namespace WebApi.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _movieService;
-        public MoviesController(IMovieService movieService)
+        private readonly IStatisticService _statisticService;
+        public MoviesController(IMovieService movieService, IStatisticService statisticService)
         {
             _movieService = movieService;
+            _statisticService = statisticService;
         }
 
         [HttpGet]
@@ -85,5 +87,18 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpGet("{id}/statistic")]
+        public async Task<ActionResult<MovieStatistic>> GetStatisticById(int id)
+        {
+            try
+            {
+                var getUserById = await _statisticService.GetMovieStatisticById(id);
+                return Ok(getUserById);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

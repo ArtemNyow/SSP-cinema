@@ -55,6 +55,11 @@ public class CinemaDbContext : DbContext
             .WithMany(u => u.Tickets)
             .HasForeignKey(t => t.UserID)
             .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Ticket>()
+            .HasOne<Session>(t => t.Session)
+            .WithMany(s => s.Tickets)
+            .HasForeignKey(t => t.SessionID)
+            .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<Movie>()
             .HasKey(e => e.ID);
