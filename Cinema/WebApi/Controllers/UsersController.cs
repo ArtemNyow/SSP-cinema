@@ -99,7 +99,7 @@ namespace WebApi.Controllers
 
         [HttpGet("tickets")]
         [Authorize]
-        public async Task<ActionResult<List<TicketDto>>> GetTicketbyUserId()
+        public async Task<ActionResult<List<TicketDto>>> GetTickets()
         {
             try
             {
@@ -111,6 +111,22 @@ namespace WebApi.Controllers
                 }
 
                 var userTickets = await _userService.GetTicketsByUserId(userId);
+                return Ok(userTickets);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{id}/tickets")]
+        [Authorize("admin")]
+        public async Task<ActionResult<List<TicketDto>>> GetTicketsByUserId([FromQuery] int id)
+        {
+            try
+            {
+
+                var userTickets = await _userService.GetTicketsByUserId(id);
                 return Ok(userTickets);
             }
             catch (Exception ex)
