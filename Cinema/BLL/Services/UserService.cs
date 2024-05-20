@@ -94,7 +94,7 @@ namespace BLL.Services
             var ageRatings = userMovies.Select(m => m.AgeRating).Distinct();
 
             var allMovies = await _movieRepository
-                .GetAll("Genres", "Sessions", "Hall")
+                .GetAll("Genres", "Sessions.Hall")
                 .ToListAsync();
 
             var recommendationMovies = allMovies

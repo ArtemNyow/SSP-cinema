@@ -120,7 +120,7 @@ namespace WebApi.Controllers
 
         [HttpGet("{id}/tickets")]
         [Authorize("admin")]
-        public async Task<ActionResult<List<TicketDto>>> GetTicketsByUserId([FromQuery] int id)
+        public async Task<ActionResult<List<TicketDto>>> GetTicketsByUserId(int id)
         {
             try
             {
