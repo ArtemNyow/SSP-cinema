@@ -74,7 +74,7 @@ namespace BLL.Services
         public IQueryable<SessionDto> GetActiveSessions()
         {
             return _sessionRepository
-                .GetAll("Movie.Genre", "Hall", "Movie.Actors.Person", "Movie.Directors.Person")
+                .GetAll("Movie.Genres", "Hall", "Movie.Actors.Person", "Movie.Directors.Person")
                 .Where(e => e.Status == SessionStatus.Active)
                 .Select(s => s.ToDto());
         }
